@@ -69,30 +69,45 @@ function drawPlayerShip() {
 	if (game.mouse) {
 		player.y = game.mouseY;
 	}
-	context.drawImage(images.gun0, player.x + 55, player.y - 8.5);	
+	context.drawImage(images.gun0, player.x + 55, player.y - 8.5);
 	context.drawImage(images.blueShip, player.x, player.y - 49.5);
 }
 
 function drawMainMenu() {
 	"use strict";
-	context.fillStyle = "rgba(106, 115, 111, 0.6)";
-	context.fillRect(canvasWidth * 25 / 100, canvasHeight * 10 / 100, canvasWidth * 50 / 100, canvasHeight * 80 / 100);
-	context.fillStyle = "rgba(255, 255, 255, 1)";
-	context.fillText("Menu", canvasWidth * 46 / 100, canvasHeight * 18 / 100);
-	context.fillStyle = "rgba(116, 125, 121, 0.8)";
-	//Start Game
-	context.fillRect(canvasWidth * 28 / 100, canvasHeight * 20 / 100, canvasWidth * 20 / 100, canvasHeight * 25 / 100);
-	//Options
-	context.fillRect(canvasWidth * 52 / 100, canvasHeight * 20 / 100, canvasWidth * 20 / 100, canvasHeight * 25 / 100);
-	//High Score
-	context.fillRect(canvasWidth * 28 / 100, canvasHeight * 50 / 100, canvasWidth * 20 / 100, canvasHeight * 25 / 100);
-	//About
-	context.fillRect(canvasWidth * 52 / 100, canvasHeight * 50 / 100, canvasWidth * 20 / 100, canvasHeight * 25 / 100);
-	context.fillStyle = "rgba(255, 255, 255, 1)";
-	context.fillText("Start Game", canvasWidth * 30 / 100, canvasHeight * 34 / 100);
-	context.fillText("Options", canvasWidth * 57 / 100, canvasHeight * 34 / 100);
-	context.fillText("High Score", canvasWidth * 30 / 100, canvasHeight * 64 / 100);
-	context.fillText("About", canvasWidth * 58 / 100, canvasHeight * 64 / 100);
+	var part1, part2, start, options, stats, about, mouseX, mouseY;
+	part1 = canvasWidth  / 4;
+	part2 = canvasHeight / 4;
+	mouseX = game.mouseX;
+	mouseY = game.mouseY;
+	//Button animation
+	if (mouseX >= part1 * 1.2 && mouseX <= part1 * 1.2 + part1 * 0.75 && mouseY >= part2 && mouseY <= part2 + part2 * 0.7) {
+		start = images.start1;
+	} else {
+		start = images.start0;
+	}
+	if (mouseX >= part1 * 2.1 && mouseX <= part1 * 2.1 + part1 * 0.75 && mouseY >= part2 && mouseY <= part2 + part2 * 0.7) {
+		options = images.options1;
+	} else {
+		options = images.options0;
+	}
+	if (mouseX >= part1 * 1.2 && mouseX <= part1 * 1.2 + part1 * 0.75 && mouseY >= part2 * 2 && mouseY <= part2 * 2 + part2 * 0.7) {
+		stats = images.stats1;
+	} else {
+		stats = images.stats0;
+	}
+	if (mouseX >= part1 * 2.1 && mouseX <= part1 * 2.1 + part1 * 0.75 && mouseY >= part2 * 2 && mouseY <= part2 * 2 + part2 * 0.7) {
+		about = images.about1;
+	} else {
+		about = images.about0;
+	}
+	//drawing button
+	context.drawImage(images.blueMetal, part1, 0, part1 * 2, part2 * 3.5);
+	context.drawImage(images.bigLogo, part1 * 1.1, part2 * 0.1, part1 * 1.8, part2 * 1);
+	context.drawImage(start, part1 * 1.2, part2, part1 * 0.75, part2 * 0.7);
+	context.drawImage(options, part1 * 2.1, part2, part1 * 0.75, part2 * 0.7);
+	context.drawImage(stats, part1 * 1.2, part2 * 2, part1 * 0.75, part2 * 0.7);
+	context.drawImage(about, part1 * 2.1, part2 * 2, part1 * 0.75, part2 * 0.7);
 }
 
 function drawStars() {
@@ -187,7 +202,9 @@ function initPlayer() {
 	};
 }
 
-//function initEnemies
+function initEnemies() {
+	"use strict";
+}
 
 function getScreen() {
 	"use strict";
@@ -222,14 +239,26 @@ function getMousePos(evt) {
 	game.mouseY = evt.clientY - rect.top;
 }
 
-function buttonCheck() {
+function buttonCheck(screen) {
 	"use strict";
-	var mouseX, mouseY;
+	var mouseX, mouseY, part1, part2;
+	part1 = canvasWidth  / 4;
+	part2 = canvasHeight / 4;
 	mouseX = game.mouseX;
 	mouseY = game.mouseY;
-	//Start
-	if (mouseX >= canvasWidth * 28 / 100 && mouseX <= (canvasWidth * 28 / 100 + canvasWidth * 20 / 100) && mouseY >= canvasHeight * 20 / 100 && mouseY <= (canvasHeight * 20 / 100 + canvasHeight * 25 / 100)) {
-		game.screen = "game";
+	if (screen === "main_menu") {
+		if (mouseX >= part1 * 1.2 && mouseX <= part1 * 1.2 + part1 * 0.75 && mouseY >= part2 && mouseY <= part2 + part2 * 0.7) {
+			game.screen = "game";
+		}
+		if (mouseX >= part1 * 2.1 && mouseX <= part1 * 2.1 + part1 * 0.75 && mouseY >= part2 && mouseY <= part2 + part2 * 0.7) {
+			game.screen = "options";
+		}
+		if (mouseX >= part1 * 1.2 && mouseX <= part1 * 1.2 + part1 * 0.75 && mouseY >= part2 * 2 && mouseY <= part2 * 2 + part2 * 0.7) {
+			game.screen = "stats";
+		}
+		if (mouseX >= part1 * 2.1 && mouseX <= part1 * 2.1 + part1 * 0.75 && mouseY >= part2 * 2 && mouseY <= part2 * 2 + part2 * 0.7) {
+			game.screen = "about";
+		}
 	}
 }
 
@@ -252,7 +281,7 @@ function mouseClicked() {
 	"use strict";
 	switch (game.screen) {
 	case "main_menu":
-		buttonCheck();
+		buttonCheck(game.screen);
 		break;
 	case "game":
 		playerShoot();
@@ -266,6 +295,7 @@ function preloadImages() {
 	images = {};
 	sources = {
 		//menu
+		bigLogo:	"images/logo/logo_large.png",
 		blueMetal:	"images/menu/backdrop/blueMetalSheet.jpg",
 		start0:		"images/menu/button/startGame0.png",
 		start1:		"images/menu/button/startGame1.png",
@@ -309,7 +339,7 @@ function init() {
 	preloadImages();
 	stars = [];
 	star  = {};
-	noStars = 500;
+	noStars = 1000;
 	addStars();
 	//Game settings	
 	initGame();

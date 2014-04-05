@@ -63,10 +63,9 @@ function draw() {
 }
 
 function writeMessage(c, message,x,y) {
-        ctx.clearRect(0, 0, c.width, c.height);
-		ctx.drawImage(sky,0,0);
-		ctx.drawImage(ground,0,0);
-		draw_cop(x,y);
+       
+		
+		//draw_cop(x,y);
         ctx.font = '18pt Calibri';
         ctx.fillStyle = 'black';
         
@@ -81,5 +80,5 @@ c.addEventListener('mousemove', function(evt) {
         var mousePos = getMousePos(c, evt);
 		var message = "dunno";
         debugMessage = 'Mouse position: ' + mouseX + ',' + mouseY;
-        writeMessage(c, message,mousePos.x,mousePos.y);
+        writeMessage(c, message,mouseX,mouseY);
       }, false);
