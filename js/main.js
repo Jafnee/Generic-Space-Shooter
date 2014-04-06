@@ -1,6 +1,4 @@
-define(["canvas"], function (canvas, config) {
-	function init() {
-	"use strict";
+define(["canvas, images"], function (canvas, images) {
 	//Canvas
 	
 	//Background
@@ -18,10 +16,7 @@ define(["canvas"], function (canvas, config) {
 	playerBullets = [];
 	enemyBullets = [];
 	//Event listeners
-	Canvas.canvas.addEventListener("mousemove", getMousePos, false);
-	Canvas.canvas.addEventListener("click", mouseClicked, false);
-	window.addEventListener("resize", Canvas.resize, false);
+	
 	//Starts game
 	animate();
-}
 )};
