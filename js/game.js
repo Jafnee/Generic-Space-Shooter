@@ -49,6 +49,11 @@ function addStars() {
 	}
 }
 
+function incrementTimer() {
+	"use strict";
+	game.timer += 1;
+}
+
 function fpsCalc() {
 	"use strict";
 	var delta;
@@ -103,7 +108,7 @@ function drawMainMenu() {
 	}
 	//drawing button
 	context.drawImage(images.blueMetal, part1, 0, part1 * 2, part2 * 3.5);
-	context.drawImage(images.bigLogo, part1 * 1.1, part2 * 0.1, part1 * 1.8, part2 * 1);
+	context.drawImage(images.bigLogo, part1 * 1.1, part2 * 0.1, part1 * 1.8, part2);
 	context.drawImage(start, part1 * 1.2, part2, part1 * 0.75, part2 * 0.7);
 	context.drawImage(options, part1 * 2.1, part2, part1 * 0.75, part2 * 0.7);
 	context.drawImage(stats, part1 * 1.2, part2 * 2, part1 * 0.75, part2 * 0.7);
@@ -196,14 +201,62 @@ function initPlayer() {
 	player = {
 		x:			100,
 		y:			100,
-		upgrade:	0,
+		upgrade:	1,
+		guns:		1,
 		hp:			100,
+		lives:		3,
 		level:		1
 	};
 }
 
-function initEnemies() {
+function initEnemy() {
 	"use strict";
+	var enemyShip;
+	//enemy[0]
+	enemyShip = {
+		name:	"scout",
+		ship:	images.scout,
+		hp:		10,
+		damage:	0,
+		speed:	4
+	};
+	enemy.push(enemyShip);
+	//enemy[1]
+	enemyShip = {
+		name:	"fighter",
+		ship:	images.fighter,
+		hp:		20,
+		damage:	10,
+		speed:	3
+	};
+	enemy.push(enemyShip);
+	//enemy[2]
+	enemyShip = {
+		name:	"interceptor",
+		ship:	images.interceptor,
+		hp:		20,
+		damage:	5,
+		speed:	3
+	};
+	enemy.push(enemyShip);
+	//enemy[3]
+	enemyShip = {
+		name:	"tank",
+		ship:	images.tank,
+		hp:		100,
+		damage:	5,
+		speed:	2
+	};
+	enemy.push(enemyShip);
+	//enemy[4]
+	enemyShip = {
+		name:	"transport",
+		ship:	images.transport,
+		hp:		20,
+		damage:	0,
+		speed:	3
+	};
+	enemy.push(enemyShip);
 }
 
 function getScreen() {
@@ -222,6 +275,9 @@ function initGame() {
 	"use strict";
 	game = {
 		screen:		getScreen(),
+		paused:		false,
+		levelStart:	true,
+		timer:		0,
 		keyboard:	false,
 		keyboardX:	100,
 		keyboardY:	100,
@@ -264,17 +320,29 @@ function buttonCheck(screen) {
 
 function playerShoot() {
 	"use strict";
-	var bullet;
+	var bullet, i, tempDamage, tempType;
 	bullet = {
-		x:	100,
-		y: game.mouseY,
-		type: images.blueLaser1
+		x:		100,
+		y:		game.mouseY
 	};
-	if (bullet.type === images.blueLaser1) {
-		bullet.x += 60;
-		bullet.y -= 5;
+	switch (player.upgrade) {
+	case 1:
+		tempDamage = player.upgrade * 10;
+		tempType = images.blueLaser1;
+		break;
 	}
-	playerBullets.push(bullet);
+	for (i = 0; i < player.guns; i += 1) {
+		//gun1
+		if (i === 0) {
+			bullet.x += 60;
+			bullet.y -= 5;
+			bullet.type = tempType;
+			bullet.damage = tempDamage;
+			playerBullets.push(bullet);
+			playerBullets.push(bullet);
+		}
+		//gun2		
+	}
 }
 
 function mouseClicked() {
@@ -307,9 +375,14 @@ function preloadImages() {
 		about1:		"images/menu/button/about1.png",
 		//ships
 		blueShip:	"images/character/player/playerShipBlue.png",
+		scout:		"images/character/enemy/enemyBlack1.png",
+		fighter:		"images/character/enemy/enemyBlack2.png",
+		interceptor:		"images/character/enemy/enemyBlack3.png",
+		tank:		"images/character/enemy/enemyBlack4.png",
+		transport:		"images/character/enemy/enemyRed5.png",
 		//guns
 		gun0:		"images/misc/gun/gun00.png",
-		//playerBullets
+		//Bullets
 		blueLaser1:	"images/misc/laser/laserBlue01.png"
 	};
 	for (src in sources) {
@@ -345,6 +418,8 @@ function init() {
 	initGame();
 	initPlayer();
 	enemies  = [];
+	enemy = [];
+	initEnemy();
 	playerBullets = [];
 	enemyBullets = [];
 	//Event listeners
