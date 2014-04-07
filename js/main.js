@@ -1,11 +1,21 @@
-define(["model/canvas",
-		"model/character",
-		"model/images",
-		"model/game",
-		"view/draw",
-		"controller/listener",
-		"controller/action"
-		], function (Canvas, Character, Images, Game, Draw, Listener, Action) {
+define([
+	"model/images",
+	"model/canvas",
+	"model/character",
+	"model/game",
+	"view/draw",
+	"controller/listener",
+	"controller/action"
+	], 
+	function (
+		Images,
+		Canvas,
+		Character, 
+		Game,
+		Draw, 
+		Listener, 
+		Action
+	){
 	//Canvas	
 	//window.alert(Canvas.canvasWidth);
 	//Background
@@ -13,6 +23,7 @@ define(["model/canvas",
 	//stars = [];
 	//star  = {};
 	//noStars = 1000;
+	Game.getScreen();
 	Game.addStars();
 	//Game settings	
 	//initGame();

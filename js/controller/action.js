@@ -1,18 +1,31 @@
-define([""], function () {
+define(["model/game", "model/canvas", "model/character", "model/images"], function (Game, Canvas, Character, Images) {
 	var getMousePos = function getMousePos(evt) {
-		game.mouse = true;
-		var rect = canvas.getBoundingClientRect();
-		game.mouseX = evt.clientX - rect.left;
-		game.mouseY = evt.clientY - rect.top;
+		Game.mouse.use = true;
+		var rect = Canvas.canvas.getBoundingClientRect();
+		Game.mouse.pos.x = evt.clientX - rect.left;
+		Game.mouse.pos.y = evt.clientY - rect.top;
+	}
+	
+	var resize = function resize() {
+		Canvas.contextCanvasWidth = window.innerWidth;
+		Canvas.contextCanvasHeight = window.innerHeight - 70;
+		Canvas.canvasWidth = canvas.width;
+		Canvas.canvasHeight = canvas.height;
+		canvas = document.getElementById("gameCanvas");
+		context = canvas.getContext("2d");
+		context.canvas.width = window.innerWidth;
+		context.canvas.height = window.innerHeight - 70;
+		canvasWidth = canvas.width;
+		canvasHeight = canvas.height;
 	}
 	
 	var mouseClicked = function mouseClicked() {
 		switch (Game.screen) {
 		case "main_menu":
-			buttonCheck(Game.screen);
+			Action.mainMenuButtonCheck(Game.screen);
 			break;
 		case "game":
-			playerShoot();
+			Action.playerShoot();
 			break;
 		}
 	}
@@ -21,38 +34,37 @@ define([""], function () {
 		var mouseX, mouseY, part1, part2;
 		part1 = canvasWidth  / 4;
 		part2 = canvasHeight / 4;
-		mouseX = game.mouseX;
-		mouseY = game.mouseY;
+		mouseX = Game.mouse.pos.x;
+		mouseY = Game.mouse.pos.y;
 		if (screen === "main_menu") {
 			if (mouseX >= part1 * 1.2 && mouseX <= part1 * 1.2 + part1 * 0.75 && mouseY >= part2 && mouseY <= part2 + part2 * 0.7) {
-				game.screen = "game";
+				Game.screen = "game";
 			}
 			if (mouseX >= part1 * 2.1 && mouseX <= part1 * 2.1 + part1 * 0.75 && mouseY >= part2 && mouseY <= part2 + part2 * 0.7) {
-				game.screen = "options";
+				Game.screen = "options";
 			}
 			if (mouseX >= part1 * 1.2 && mouseX <= part1 * 1.2 + part1 * 0.75 && mouseY >= part2 * 2 && mouseY <= part2 * 2 + part2 * 0.7) {
-				game.screen = "stats";
+				Game.screen = "stats";
 			}
 			if (mouseX >= part1 * 2.1 && mouseX <= part1 * 2.1 + part1 * 0.75 && mouseY >= part2 * 2 && mouseY <= part2 * 2 + part2 * 0.7) {
-				game.screen = "about";
+				Game.screen = "about";
 			}
 		}
 	}
 	
 	var playerShoot = function playerShoot() {
-		"use strict";
 		var bullet, i, tempDamage, tempType;
 		bullet = {
 			x:		100,
-			y:		game.mouseY
+			y:		Game.mouse.pos.y
 		};
-		switch (player.upgrade) {
+		switch (Character.ship.player.upgrade) {
 		case 1:
-			tempDamage = player.upgrade * 10;
-			tempType = images.blueLaser1;
+			tempDamage = Character.ship.player.upgrade * 10;
+			tempType = Images.blueLaser1;
 			break;
 		}
-		for (i = 0; i < player.guns; i += 1) {
+		for (i = 0; i < Character.ship.player.guns; i += 1) {
 			//gun1
 			if (i === 0) {
 				bullet.x += 60;
@@ -69,7 +81,8 @@ define([""], function () {
 		mouseClicked:			mouseClicked,
 		playerShoot:			playerShoot,
 		mainMenuButtonCheck:	mainMenuButtonCheck,
-		getMousePos:			getMousePos
+		getMousePos:			getMousePos,
+		resize:					resize
 	};
 	return Action;
 });

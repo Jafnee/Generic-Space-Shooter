@@ -1,4 +1,4 @@
-define(["model/images"], function (Imagess) {
+define(["model/images", "model/game"], function (Images, Game) {
 	var generateStar = function generateStar(old) {
 		star = {
 			y:		Math.floor(Math.random() * canvasHeight) + 1,
@@ -16,18 +16,19 @@ define(["model/images"], function (Imagess) {
 		"use strict";
 		var i;
 		for (i = 0; i < Game.noStars; i += 1) {
-			stars.push(generateStar());
+			Game.stars.push(generateStar());
 		}
 	}
+
 	var getScreen = function getScreen() {
 		var screen, curPage;
 		curPage = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
 		if (curPage === "" || curPage === "index.html") {
-			screen = "main_menu";
+			Game.screen = "main_menu";
 		} else if (curPage === "about.html") {
-			screen = "about";
-	}
-	return screen;
+			Game.screen = "about";
+		}
+		return screen;
 	}
 	var keyboard = {
 		use:	false,
@@ -53,15 +54,16 @@ define(["model/images"], function (Imagess) {
 		enemies:		enemies = [],
 		playerBullets:	playerBullets = [],
 		enemyBullets:	enemyBullets = [],
-		noStars:		1000,
-		screen:			getScreen(),
+		noStars:		600,
+		screen:			"",
 		paused:			false,
 		levelStart:		true,
 		timer:			0,
 		keyboard:		keyboard,
 		mouse:			mouse,
 		fps:			0,
-		lastCalledTime:	null
+		lastCalledTime:	0
 	};
+	
 	return Game;
 });

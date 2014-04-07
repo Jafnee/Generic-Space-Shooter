@@ -1,4 +1,4 @@
-define(["model/game", "model/canvas"], function (Game, Canvas) {
+define(["model/images", "model/canvas", "model/game", "model/character"], function (Images, Canvas, Game, Character) {
 	var drawStars = function drawStars() {
 		var i, size, x, y;
 		for (i = 0; i < Game.stars.length; i += 1) {
@@ -43,34 +43,34 @@ define(["model/game", "model/canvas"], function (Game, Canvas) {
 	}
 	var drawMainMenu = function drawMainMenu() {
 		var part1, part2, start, options, stats, about, mouseX, mouseY;
-		part1 = canvasWidth  / 4;
-		part2 = canvasHeight / 4;
+		part1 = Canvas.canvasWidth  / 4;
+		part2 = Canvas.canvasHeight / 4;
 		mouseX = Game.mouse.pos.x;
 		mouseY = Game.mouse.pos.Y;
 		//Button animation
 		if (mouseX >= part1 * 1.2 && mouseX <= part1 * 1.2 + part1 * 0.75 && mouseY >= part2 && mouseY <= part2 + part2 * 0.7) {
-			start = images.start1;
+			start = Images.start1;
 		} else {
-			start = images.start0;
+			start = Images.start0;
 		}
 		if (mouseX >= part1 * 2.1 && mouseX <= part1 * 2.1 + part1 * 0.75 && mouseY >= part2 && mouseY <= part2 + part2 * 0.7) {
-			options = images.options1;
+			options = Images.options1;
 		} else {
-			options = images.options0;
+			options = Images.options0;
 		}
 		if (mouseX >= part1 * 1.2 && mouseX <= part1 * 1.2 + part1 * 0.75 && mouseY >= part2 * 2 && mouseY <= part2 * 2 + part2 * 0.7) {
-			stats = images.stats1;
+			stats = Images.stats1;
 		} else {
-			stats = images.stats0;
+			stats = Images.stats0;
 		}
 		if (mouseX >= part1 * 2.1 && mouseX <= part1 * 2.1 + part1 * 0.75 && mouseY >= part2 * 2 && mouseY <= part2 * 2 + part2 * 0.7) {
-			about = images.about1;
+			about = Images.about1;
 		} else {
-			about = images.about0;
+			about = Images.about0;
 		}
 		//drawing button
-		Canvas.context.drawImage(images.blueMetal, part1, 0, part1 * 2, part2 * 3.5);
-		Canvas.context.drawImage(images.bigLogo, part1 * 1.1, part2 * 0.1, part1 * 1.8, part2);
+		Canvas.context.drawImage(Images.blueMetal, part1, 0, part1 * 2, part2 * 3.5);
+		Canvas.context.drawImage(Images.bigLogo, part1 * 1.1, part2 * 0.1, part1 * 1.8, part2);
 		Canvas.context.drawImage(start, part1 * 1.2, part2, part1 * 0.75, part2 * 0.7);
 		Canvas.context.drawImage(options, part1 * 2.1, part2, part1 * 0.75, part2 * 0.7);
 		Canvas.context.drawImage(stats, part1 * 1.2, part2 * 2, part1 * 0.75, part2 * 0.7);
@@ -79,7 +79,7 @@ define(["model/game", "model/canvas"], function (Game, Canvas) {
 	
 	var drawMenu = function drawMenu() {
 		switch (Game.screen) {
-		case "menu":
+		case "main_menu":
 			drawMainMenu();
 			break;
 		default:
@@ -88,18 +88,18 @@ define(["model/game", "model/canvas"], function (Game, Canvas) {
 	}
 	
 	var drawPlayerShip = function drawPlayerShip() {
-		if (game.mouse) {
-			player.y = Game.mouse.pos.Y;
+		if (Game.mouse.use) {
+			Character.ship.player.pos.y = Game.mouse.pos.y;
 		}
-		Canvas.context.drawImage(images.gun0, player.x + 55, player.y - 8.5);
-		Canvas.context.drawImage(images.blueShip, player.x, player.y - 49.5);
+		Canvas.context.drawImage(Images.gun0, Character.ship.player.pos.x + 55, Character.ship.player.pos.y - 8.5);
+		Canvas.context.drawImage(Images.blueShip, Character.ship.player.pos.x, Character.ship.player.pos.y - 49.5);
 	}
 	
-	var drawBullet = function drawBullets() {
+	var drawBullets = function drawBullets() {
 		var i;
 		for (i = 0; i < playerBullets.length; i += 1) {
 			Canvas.context.drawImage(playerBullets[i].type, playerBullets[i].x, playerBullets[i].y);
-			if (playerBullets[i].x >= canvasWidth) {
+			if (playerBullets[i].x >= Canvas.canvasWidth) {
 				playerBullets.shift();
 			} else {
 				playerBullets[i].x += 40;
@@ -107,7 +107,7 @@ define(["model/game", "model/canvas"], function (Game, Canvas) {
 		}
 		for (i = 0; i < enemyBullets.length; i += 1) {
 			Canvas.context.drawImage(enemyBullets[i].type, enemyBullets[i].x, enemyBullets[i].y);
-			if (enemyBullets[i].x >= canvasWidth) {
+			if (enemyBullets[i].x >= Canvas.canvasWidth) {
 				enemyBullets.shift();
 			} else {
 				enemyBullets[i].x += 40;
@@ -115,23 +115,24 @@ define(["model/game", "model/canvas"], function (Game, Canvas) {
 		}
 	}
 	var draw = function draw() {
-		drawBackground();
+		Draw.drawBackground();
 		//Checks which screen user is on
+		console.log(Game.screen);
 		switch (Game.screen) {
 		case "main_menu":
-			drawMenu();
+			Draw.drawMenu();
 			break;
 		case "game":
-			drawBullets();
-			drawPlayerShip();
+			Draw.drawBullets();
+			Draw.drawPlayerShip();
 			break;
 		}
 		fpsCalc();
 	}
 		
 	var animate = function animate() {
-		requestAnimationFrame(animate);
-		draw();
+		requestAnimationFrame(Draw.animate);
+		Draw.draw();
 	}
 		
 	var Draw = {
@@ -141,7 +142,7 @@ define(["model/game", "model/canvas"], function (Game, Canvas) {
 		fpsCalc:				fpsCalc,
 		drawBackground:			drawBackground,
 		drawPlayerShip:			drawPlayerShip,
-		drawBullet:				drawBullet,
+		drawBullets:				drawBullets,
 		drawMainMenu:			drawMainMenu,
 		drawMenu:				drawMenu,
 		draw:					draw
