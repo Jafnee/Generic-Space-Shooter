@@ -13,16 +13,11 @@ define([""], function () {
 		canvasHeight = canvas.height;
 	}
 	
-	var Canvas = {
+	var Draw = {
 		//functions
 		resize:					resize,
-		canvas:					document.getElementById("gameCanvas"),
-		context:				canvas.getContext("2d"),
-		context.canvas.width:	window.innerWidth,
-		context.canvas.height:	window.innerHeight - 70,
-		canvasWidth:			canvas.width,
-		canvasHeight:			canvas.height
+		animate:				animate
 	};	
 	
-	return Canvas
+	return Draw;
 });
