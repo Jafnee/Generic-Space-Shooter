@@ -17,5 +17,5 @@ define([""], function () {
 		resize:					resize
 	};	
 	
-	return canvas
+	return Canvas
 });
