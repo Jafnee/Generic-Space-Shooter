@@ -1,4 +1,4 @@
-define([""], function () {
+define(["model/images"], function (Images) {
 	var player = {
 		name:			"player1",
 		upgrade:		1,
@@ -9,44 +9,44 @@ define([""], function () {
 		pos:			pos = {
 							x:	100,
 							y:	100
-						};
+						}
 	};
 	var enemy = {
 		scout:			scout = {
 							name:		"scout",
 							ship:		Images.scout,
-							hp:			10
+							hp:			10,
 							damage:		0,
 							speed:		4
-						};,
+						},
 		fighter:		fighter = {
 							name:		"fighter",
 							ship:		Images.fighter,
 							hp:			20,
 							damage:		10,
 							speed:		3
-						};,
+						},
 		interceptor:	interceptor = {
 							name:		"interceptor",
 							ship:		Images.interceptor,
 							hp:			20,
 							damage:		5,
 							speed:		3
-						};,
+						},
 		tank:			tank = {
 							name:	"tank",
 							ship:	Images.tank,
 							hp:		100,
 							damage:	5,
 							speed:	2
-						};,
+						},
 		transport:		transport = {
 						name:	"transport",
-						ship:		images.transport,
+						ship:		Images.transport,
 						hp:			20,
 						damage:		0,
 						speed:		3
-					};
+					}
 		
 	};
 	var ship = {
