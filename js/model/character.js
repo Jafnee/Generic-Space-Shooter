@@ -1,11 +1,11 @@
 define(["model/images"], function (Images) {
 	var player = {
 		name:			"player1",
+		score:			0,
 		upgrade:		1,
 		guns:			1,
 		hp:				100,
 		lives:			3,
-		level:			1,
 		pos:			pos = {
 							x:	100,
 							y:	100

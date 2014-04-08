@@ -1,4 +1,5 @@
-define(["model/images", "model/canvas", "model/game", "model/character"], function (Images, Canvas, Game, Character) {
+define(["model/images", "model/canvas", "model/game", "model/character", "controller/gameLogic"],
+function (Images, Canvas, Game, Character, GameLogic) {
 	var drawStars = function drawStars() {
 		var i, size, x, y;
 		for (i = 0; i < Game.stars.length; i += 1) {
@@ -40,6 +41,9 @@ define(["model/images", "model/canvas", "model/game", "model/character"], functi
 		Canvas.context.font = "40px Verdana";
 		//TEST
 		Canvas.context.fillText(Game.fps + " Mouse : " + Game.mouse.pos.x + " " + Game.mouse.pos.y, Canvas.canvasWidth - 550, 40);
+		if (GameLogic.level.started) {
+			Draw.drawTimer();
+		}
 	}
 	var drawMainMenu = function drawMainMenu() {
 		var part1, part2, start, options, stats, about, mouseX, mouseY;
@@ -114,10 +118,14 @@ define(["model/images", "model/canvas", "model/game", "model/character"], functi
 			}
 		}
 	}
+	
+	var drawTimer = function drawTimer() {
+		Canvas.context.fillText(Game.timer, (Canvas.canvasWidth / 2) - 40, 40);
+	}
+	
 	var draw = function draw() {
 		Draw.drawBackground();
 		//Checks which screen user is on
-		console.log(Game.screen);
 		switch (Game.screen) {
 		case "main_menu":
 			Draw.drawMenu();
@@ -141,8 +149,9 @@ define(["model/images", "model/canvas", "model/game", "model/character"], functi
 		drawStars:				drawStars,
 		fpsCalc:				fpsCalc,
 		drawBackground:			drawBackground,
+		drawTimer:				drawTimer,
 		drawPlayerShip:			drawPlayerShip,
-		drawBullets:				drawBullets,
+		drawBullets:			drawBullets,
 		drawMainMenu:			drawMainMenu,
 		drawMenu:				drawMenu,
 		draw:					draw

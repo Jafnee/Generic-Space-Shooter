@@ -1,4 +1,5 @@
-define(["model/game", "model/canvas", "model/character", "model/images"], function (Game, Canvas, Character, Images) {
+define(["model/game", "model/canvas", "model/character", "model/images", "model/inPlay", "controller/gameLogic"],
+function (Game, Canvas, Character, Images, InPlay, GameLogic) {
 	var getMousePos = function getMousePos(evt) {
 		Game.mouse.use = true;
 		var rect = Canvas.canvas.getBoundingClientRect();
@@ -39,6 +40,7 @@ define(["model/game", "model/canvas", "model/character", "model/images"], functi
 		if (screen === "main_menu") {
 			if (mouseX >= part1 * 1.2 && mouseX <= part1 * 1.2 + part1 * 0.75 && mouseY >= part2 && mouseY <= part2 + part2 * 0.7) {
 				Game.screen = "game";
+				GameLogic.level.start();
 			}
 			if (mouseX >= part1 * 2.1 && mouseX <= part1 * 2.1 + part1 * 0.75 && mouseY >= part2 && mouseY <= part2 + part2 * 0.7) {
 				Game.screen = "options";
@@ -71,8 +73,8 @@ define(["model/game", "model/canvas", "model/character", "model/images"], functi
 				bullet.y -= 5;
 				bullet.type = tempType;
 				bullet.damage = tempDamage;
-				playerBullets.push(bullet);
-				playerBullets.push(bullet);
+				InPlay.playerBullets.push(bullet);
+				InPlay.playerBullets.push(bullet);
 			}
 			//gun2
 		}

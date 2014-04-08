@@ -30,6 +30,7 @@ define(["model/images", "model/game"], function (Images, Game) {
 		}
 		return screen;
 	}
+	
 	var keyboard = {
 		use:	false,
 		pos:	pos = {
@@ -51,14 +52,9 @@ define(["model/images", "model/game"], function (Images, Game) {
 		getScreen:		getScreen,
 		//variables
 		stars:			stars = [],
-		enemies:		enemies = [],
-		playerBullets:	playerBullets = [],
-		enemyBullets:	enemyBullets = [],
-		noStars:		600,
+		noStars:		100,
 		screen:			"",
-		paused:			false,
-		levelStart:		true,
-		timer:			0,
+		timer:			1,
 		keyboard:		keyboard,
 		mouse:			mouse,
 		fps:			0,
