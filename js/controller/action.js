@@ -17,7 +17,7 @@ function (Game, Canvas, Character, Images, InPlay, GameLogic) {
 		context.canvas.width = window.innerWidth;
 		context.canvas.height = window.innerHeight - 70;
 		canvasWidth = canvas.width;
-		canvasHeight = canvas.height;
+		canvasHeight = canvas.height;		
 	}
 	
 	var mouseClicked = function mouseClicked() {
@@ -58,7 +58,8 @@ function (Game, Canvas, Character, Images, InPlay, GameLogic) {
 		var bullet, i, tempDamage, tempType;
 		bullet = {
 			x:		100,
-			y:		Game.mouse.pos.y
+			y:		Game.mouse.pos.y,
+			alive:	true
 		};
 		switch (Character.ship.player.upgrade) {
 		case 1:
@@ -73,7 +74,6 @@ function (Game, Canvas, Character, Images, InPlay, GameLogic) {
 				bullet.y -= 5;
 				bullet.type = tempType;
 				bullet.damage = tempDamage;
-				InPlay.playerBullets.push(bullet);
 				InPlay.playerBullets.push(bullet);
 			}
 			//gun2

@@ -1,5 +1,5 @@
-define(["model/images", "model/canvas", "model/game", "model/character", "controller/gameLogic"],
-function (Images, Canvas, Game, Character, GameLogic) {
+define(["model/images", "model/canvas", "model/game", "model/character", "controller/gameLogic", "model/inPlay"],
+function (Images, Canvas, Game, Character, GameLogic, InPlay) {
 	var drawStars = function drawStars() {
 		var i, size, x, y;
 		for (i = 0; i < Game.stars.length; i += 1) {
@@ -41,9 +41,6 @@ function (Images, Canvas, Game, Character, GameLogic) {
 		Canvas.context.font = "40px Verdana";
 		//TEST
 		Canvas.context.fillText(Game.fps + " Mouse : " + Game.mouse.pos.x + " " + Game.mouse.pos.y, Canvas.canvasWidth - 550, 40);
-		if (GameLogic.level.started) {
-			Draw.drawTimer();
-		}
 	}
 	var drawMainMenu = function drawMainMenu() {
 		var part1, part2, start, options, stats, about, mouseX, mouseY;
@@ -99,14 +96,35 @@ function (Images, Canvas, Game, Character, GameLogic) {
 		Canvas.context.drawImage(Images.blueShip, Character.ship.player.pos.x, Character.ship.player.pos.y - 49.5);
 	}
 	
+	var drawEnemies = function drawEnemies() {
+		var i, relativeTime;
+		var enemies = InPlay.enemies;		
+		for (i = 0; i < enemies.length; i += 1) {
+			if (enemies[i].alive) {
+				relativeTime = Game.timer - GameLogic.level.startTime;
+				if (relativeTime > enemies[i].time) {
+					Canvas.context.drawImage(enemies[i].ship, enemies[i].x, enemies[i].y);
+					if (enemies[i].x <= -140) {
+						enemies[i].alive = false;
+					} else {
+						enemies[i].x -= enemies[i].speed;
+					}
+				}
+			}
+		}
+	}
+	
 	var drawBullets = function drawBullets() {
 		var i;
+		var playerBullets = InPlay.playerBullets;
 		for (i = 0; i < playerBullets.length; i += 1) {
-			Canvas.context.drawImage(playerBullets[i].type, playerBullets[i].x, playerBullets[i].y);
-			if (playerBullets[i].x >= Canvas.canvasWidth) {
-				playerBullets.shift();
-			} else {
-				playerBullets[i].x += 40;
+			if (playerBullets[i].alive) {
+				Canvas.context.drawImage(playerBullets[i].type, playerBullets[i].x, playerBullets[i].y);
+				if (playerBullets[i].x >= Canvas.canvasWidth) {
+					playerBullets.shift();
+				} else {
+					playerBullets[i].x += 40;
+				}
 			}
 		}
 		for (i = 0; i < enemyBullets.length; i += 1) {
@@ -119,9 +137,25 @@ function (Images, Canvas, Game, Character, GameLogic) {
 		}
 	}
 	
-	var drawTimer = function drawTimer() {
-		Canvas.context.fillText(Game.timer, (Canvas.canvasWidth / 2) - 40, 40);
+	var drawScore = function drawScore() {
+		var score = Character.ship.player.score;
+		Canvas.context.fillText("Score: "+score, (Canvas.canvasWidth / 2) - 240, 40);
 	}
+	
+	var drawLevelSplash = function drawLevelSplash() {
+		window.alert("hi");
+	};
+	
+	var drawGame = function drawGame() {
+		if (Game.levelStarted) {
+			Draw.drawScore();
+		} else {
+			Canvas.context.fillText("Level: "+Game.level, (Canvas.canvasWidth / 2) - 80, Canvas.canvasHeight / 2);
+		}
+		Draw.drawBullets();
+		Draw.drawPlayerShip();
+		Draw.drawEnemies();
+	};
 	
 	var draw = function draw() {
 		Draw.drawBackground();
@@ -131,16 +165,16 @@ function (Images, Canvas, Game, Character, GameLogic) {
 			Draw.drawMenu();
 			break;
 		case "game":
-			Draw.drawBullets();
-			Draw.drawPlayerShip();
+			Draw.drawGame();
 			break;
 		}
 		fpsCalc();
 	}
 		
 	var animate = function animate() {
-		requestAnimationFrame(Draw.animate);
+		requestAnimationFrame(Draw.animate);		
 		Draw.draw();
+		GameLogic.checkCollisions();
 	}
 		
 	var Draw = {
@@ -149,11 +183,14 @@ function (Images, Canvas, Game, Character, GameLogic) {
 		drawStars:				drawStars,
 		fpsCalc:				fpsCalc,
 		drawBackground:			drawBackground,
-		drawTimer:				drawTimer,
+		drawScore:				drawScore,
 		drawPlayerShip:			drawPlayerShip,
+		drawEnemies:			drawEnemies,
 		drawBullets:			drawBullets,
+		drawGame:				drawGame,
 		drawMainMenu:			drawMainMenu,
 		drawMenu:				drawMenu,
+		drawLevelSplash:		drawLevelSplash,
 		draw:					draw
 	};	
 	
