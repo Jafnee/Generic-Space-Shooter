@@ -92,8 +92,10 @@ function (Images, Canvas, Game, Character, GameLogic, InPlay) {
 		if (Game.mouse.use) {
 			Character.ship.player.pos.y = Game.mouse.pos.y;
 		}
-		Canvas.context.drawImage(Images.gun0, Character.ship.player.pos.x + 55, Character.ship.player.pos.y - 8.5);
-		Canvas.context.drawImage(Images.blueShip, Character.ship.player.pos.x, Character.ship.player.pos.y - 49.5);
+		if (Character.ship.player.hp > 0) {
+			Canvas.context.drawImage(Images.gun0, Character.ship.player.pos.x + 55, Character.ship.player.pos.y - 8.5);
+			Canvas.context.drawImage(Images.blueShip, Character.ship.player.pos.x, Character.ship.player.pos.y - 49.5);
+		}
 	}
 	
 	var drawEnemies = function drawEnemies() {
@@ -150,7 +152,11 @@ function (Images, Canvas, Game, Character, GameLogic, InPlay) {
 		if (Game.levelStarted) {
 			Draw.drawScore();
 		} else {
+			if (!Game.gameOver) {
 			Canvas.context.fillText("Level: "+Game.level, (Canvas.canvasWidth / 2) - 80, Canvas.canvasHeight / 2);
+			} else {
+				Canvas.context.fillText("Game Over  Level: "+Game.level+"  Score: "+Character.ship.player.score, (Canvas.canvasWidth / 2) - 280, Canvas.canvasHeight / 2);
+			}
 		}
 		Draw.drawBullets();
 		Draw.drawPlayerShip();

@@ -56,6 +56,7 @@ define(["model/images", "model/game"], function (Images, Game) {
 		screen:			"",
 		timer:			0,
 		level:			1,
+		gameOver:		false,
 		levelStarted:	false,
 		keyboard:		keyboard,
 		mouse:			mouse,

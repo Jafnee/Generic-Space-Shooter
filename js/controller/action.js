@@ -26,7 +26,9 @@ function (Game, Canvas, Character, Images, InPlay, GameLogic) {
 			Action.mainMenuButtonCheck(Game.screen);
 			break;
 		case "game":
-			Action.playerShoot();
+			if (Character.ship.player.hp > 0) {
+				Action.playerShoot();
+			}
 			break;
 		}
 	}
