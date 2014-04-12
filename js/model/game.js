@@ -47,21 +47,21 @@ define(["model/images", "model/game"], function (Images, Game) {
 	};	
 	var Game = {
 		//functions
-		generateStar:	generateStar,
-		addStars:		addStars,
-		getScreen:		getScreen,
+		generateStar:		generateStar,
+		addStars:			addStars,
+		getScreen:			getScreen,
 		//variables
-		stars:			stars = [],
-		noStars:		100,
-		screen:			"",
-		timer:			0,
-		level:			1,
-		gameOver:		false,
-		levelStarted:	false,
-		keyboard:		keyboard,
-		mouse:			mouse,
-		fps:			0,
-		lastCalledTime:	0
+		stars:				stars = [],
+		noStars:			100,
+		screen:				"",
+		timer:				0,
+		level:				1,
+		gameOver:			false,
+		levelStarted:		false,
+		keyboard:			keyboard,
+		mouse:				mouse,
+		fps:				0,
+		lastCalledTime:		0
 	};
 	
 	return Game;

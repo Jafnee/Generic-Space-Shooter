@@ -1,5 +1,5 @@
-define(["model/images", "model/canvas", "model/game", "model/character", "controller/gameLogic", "model/inPlay"],
-function (Images, Canvas, Game, Character, GameLogic, InPlay) {
+define(["model/images", "model/canvas", "model/game", "model/character", "controller/gameLogic", "model/inPlay", "controller/action"],
+function (Images, Canvas, Game, Character, GameLogic, InPlay, Action) {
 	var drawStars = function drawStars() {
 		var i, size, x, y;
 		for (i = 0; i < Game.stars.length; i += 1) {
@@ -47,7 +47,7 @@ function (Images, Canvas, Game, Character, GameLogic, InPlay) {
 		part1 = Canvas.canvasWidth  / 4;
 		part2 = Canvas.canvasHeight / 4;
 		mouseX = Game.mouse.pos.x;
-		mouseY = Game.mouse.pos.Y;
+		mouseY = Game.mouse.pos.y;
 		//Button animation
 		if (mouseX >= part1 * 1.2 && mouseX <= part1 * 1.2 + part1 * 0.75 && mouseY >= part2 && mouseY <= part2 + part2 * 0.7) {
 			start = Images.start1;
@@ -81,8 +81,10 @@ function (Images, Canvas, Game, Character, GameLogic, InPlay) {
 	var drawMenu = function drawMenu() {
 		switch (Game.screen) {
 		case "main_menu":
-			drawMainMenu();
+			Draw.drawMainMenu();
 			break;
+		case "game_over":
+			Draw.drawGameOver();
 		default:
 			break;
 		}
@@ -110,6 +112,20 @@ function (Images, Canvas, Game, Character, GameLogic, InPlay) {
 						enemies[i].alive = false;
 					} else {
 						enemies[i].x -= enemies[i].speed;
+						if (enemies[i].name === "interceptor") {
+							if (enemies[i].y < Character.ship.player.pos.y - 49.5) {
+								enemies[i].y += 2;
+							}
+							if (enemies[i].y > Character.ship.player.pos.y - 49.5) {
+								enemies[i].y -= 2;
+							}							
+						}
+						if (enemies[i].fireRate > 0) {
+						    if (relativeTime % enemies[i].fireRate <= 0.02) {
+						        enemies[i].hasShot = true;
+						        Action.enemyShoot(enemies[i].x, enemies[i].y, enemies[i].damage);
+						    } 
+						}
 					}
 				}
 			}
@@ -119,6 +135,7 @@ function (Images, Canvas, Game, Character, GameLogic, InPlay) {
 	var drawBullets = function drawBullets() {
 		var i;
 		var playerBullets = InPlay.playerBullets;
+		var enemyBullets = InPlay.enemyBullets;
 		for (i = 0; i < playerBullets.length; i += 1) {
 			if (playerBullets[i].alive) {
 				Canvas.context.drawImage(playerBullets[i].type, playerBullets[i].x, playerBullets[i].y);
@@ -131,10 +148,10 @@ function (Images, Canvas, Game, Character, GameLogic, InPlay) {
 		}
 		for (i = 0; i < enemyBullets.length; i += 1) {
 			Canvas.context.drawImage(enemyBullets[i].type, enemyBullets[i].x, enemyBullets[i].y);
-			if (enemyBullets[i].x >= Canvas.canvasWidth) {
+			if (enemyBullets[i].x <= 0) {
 				enemyBullets.shift();
 			} else {
-				enemyBullets[i].x += 40;
+				enemyBullets[i].x -= 10;
 			}
 		}
 	}
@@ -144,19 +161,34 @@ function (Images, Canvas, Game, Character, GameLogic, InPlay) {
 		Canvas.context.fillText("Score: "+score, (Canvas.canvasWidth / 2) - 240, 40);
 	}
 	
-	var drawLevelSplash = function drawLevelSplash() {
-		window.alert("hi");
+	var drawGameOver = function drawGameOver() {
+		var restart, mainMenu
+		part1 = Canvas.canvasWidth  / 4;
+		part2 = Canvas.canvasHeight / 4;
+		mouseX = Game.mouse.pos.x;
+		mouseY = Game.mouse.pos.y;		
+		if (mouseX >= part1 * 1.2 && mouseX <= part1 * 1.2 + part1 * 0.75 && mouseY >= part2 && mouseY <= part2 + part2 * 0.7) {
+			restart = Images.restart1;
+		} else {
+			restart = Images.restart0;
+		}
+		if (mouseX >= part1 * 2.1 && mouseX <= part1 * 2.1 + part1 * 0.75 && mouseY >= part2 && mouseY <= part2 + part2 * 0.7) {
+			mainMenu = Images.mainMenu1;
+		} else {
+			mainMenu = Images.mainMenu0;
+		}
+		Canvas.context.drawImage(Images.blueMetal, part1, 0, part1 * 2, part2 * 2);
+		Canvas.context.drawImage(Images.bigLogo, part1 * 1.1, part2 * 0.1, part1 * 1.8, part2);
+		Canvas.context.fillText("Game Over  Level: "+Game.level+"  Score: "+Character.ship.player.score, (Canvas.canvasWidth / 2) - 345, Canvas.canvasHeight / 1.5);
+		Canvas.context.drawImage(restart, part1 * 1.2, part2, part1 * 0.75, part2 * 0.7);
+		Canvas.context.drawImage(mainMenu, part1 * 2.1, part2, part1 * 0.75, part2 * 0.7);
 	};
 	
 	var drawGame = function drawGame() {
 		if (Game.levelStarted) {
 			Draw.drawScore();
 		} else {
-			if (!Game.gameOver) {
 			Canvas.context.fillText("Level: "+Game.level, (Canvas.canvasWidth / 2) - 80, Canvas.canvasHeight / 2);
-			} else {
-				Canvas.context.fillText("Game Over  Level: "+Game.level+"  Score: "+Character.ship.player.score, (Canvas.canvasWidth / 2) - 280, Canvas.canvasHeight / 2);
-			}
 		}
 		Draw.drawBullets();
 		Draw.drawPlayerShip();
@@ -172,6 +204,10 @@ function (Images, Canvas, Game, Character, GameLogic, InPlay) {
 			break;
 		case "game":
 			Draw.drawGame();
+			GameLogic.checkCollisions();
+			break;
+		case "game_over":
+			Draw.drawMenu();
 			break;
 		}
 		fpsCalc();
@@ -180,7 +216,6 @@ function (Images, Canvas, Game, Character, GameLogic, InPlay) {
 	var animate = function animate() {
 		requestAnimationFrame(Draw.animate);		
 		Draw.draw();
-		GameLogic.checkCollisions();
 	}
 		
 	var Draw = {
@@ -196,7 +231,7 @@ function (Images, Canvas, Game, Character, GameLogic, InPlay) {
 		drawGame:				drawGame,
 		drawMainMenu:			drawMainMenu,
 		drawMenu:				drawMenu,
-		drawLevelSplash:		drawLevelSplash,
+		drawGameOver:			drawGameOver,
 		draw:					draw
 	};	
 	

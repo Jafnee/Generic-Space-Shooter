@@ -4,7 +4,7 @@ function (Sounds, Images, Canvas, Character, Game, Draw, Listener, Action){
 
 	
 //end of test
-	
+	Sounds.bgMusic.play();
 	Game.getScreen();
 	Game.addStars();
 	Draw.animate();	

@@ -12,10 +12,10 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas"], functi
 	var startTimer = function startTimer() {
 		timerInterval = setInterval(function () {
 			if (Game.levelStarted) {
-				Game.timer++;
-				GameLogic.addScore(20);
+				Game.timer += 0.01;
+				GameLogic.addScore(2);
 			}
-		}, 1000);
+		}, 10);
 	}
 	
 	var addScore = function addScore(add) {
@@ -98,15 +98,19 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas"], functi
 				if (enemies[ship].x >= playerPos.x && enemies[ship].x <= (playerPos.x + 75)) {
 					if ((enemies[ship].y >= (playerPos.y - 49.5) && enemies[ship].y <= ((playerPos.y + 99)- 49.5)) || ((playerPos.y -49.5) >= enemies[ship].y && (playerPos.y -49.5) <= (enemies[ship].y + 90))) {
 						Character.ship.player.hp = 0;
-						GameLogic.timer.stop();
-						enemies.length = 0;
-						Game.levelStarted = false;
-						Game.gameOver = true;
-						//window.alert("GAME OVER \n score: "+Character.ship.player.score);
+						GameLogic.gameOver();
 					}
 				}
 			}
 		}
+	};
+	
+	var gameOver = function gameOver() {
+		GameLogic.timer.stop();
+		enemies.length = 0;
+		Game.levelStarted = false;
+		Game.gameOver = true;
+		Game.screen = "game_over";
 	};
 	
 	var checkCollisions = function checkCollisions() {
@@ -134,13 +138,33 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas"], functi
 	}
 	
 	var addEnemies = function addEnemies(level) {
-		var i, enemy, x, y, noEnemies, rate;
+		var i, enemy, x, y, noEnemies, rate, selector, lvlSelector;
 		noEnemies = Game.level * 5;
-		rate = 0.5;
+		if (Game.level <= 5) {
+			lvlSelector = Game.level;
+		} else {
+			lvlSelector = 5;
+		};
+		if (Game.level < 3) {
+			rate = 1;
+		} else {
+			rate = 0.5;
+		}
 		var time = 0;
 		GameLogic.level.startTime = Game.timer;
 		for (i = 0; i < noEnemies; i ++) {
-			enemy = GameLogic.clone(Character.ship.enemy.scout);
+			selector = Math.floor(Math.random() * (lvlSelector - 1 + 1) + 1);
+			if (selector == 1) {
+				enemy = GameLogic.clone(Character.ship.enemy.scout);
+			} else if (selector == 2) {
+				enemy = GameLogic.clone(Character.ship.enemy.fighter);
+			} else if (selector == 3) {
+				enemy = GameLogic.clone(Character.ship.enemy.transport);			
+			} else if (selector == 4) {
+				enemy = GameLogic.clone(Character.ship.enemy.tank);
+			} else if (selector == 5) {
+				enemy = GameLogic.clone(Character.ship.enemy.interceptor);
+			}
 			y = Math.floor(Math.random() * (Canvas.canvasHeight - 90)) + 1;
 			if (GameLogic.spawnCheck(y,time)) {
 				x = Canvas.canvasWidth + 100;
@@ -172,6 +196,7 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas"], functi
 		checkCollisions:			checkCollisions,
 		checkEnemiesDead:			checkEnemiesDead,
 		addScore:					addScore,
+		gameOver:					gameOver,
 		//variables
 		paused:						false,
 		level:						level,
