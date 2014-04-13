@@ -5,7 +5,7 @@ function (Game, Canvas, Character, Images, InPlay, GameLogic, Sounds) {
 		var rect = Canvas.canvas.getBoundingClientRect();
 		Game.mouse.pos.x = evt.clientX - rect.left;
 		Game.mouse.pos.y = evt.clientY - rect.top;
-	}
+	};
 	
 	var resize = function resize() {
 		Canvas.contextCanvasWidth = window.innerWidth;
@@ -18,7 +18,7 @@ function (Game, Canvas, Character, Images, InPlay, GameLogic, Sounds) {
 		context.canvas.height = window.innerHeight - 70;
 		canvasWidth = canvas.width;
 		canvasHeight = canvas.height;		
-	}
+	};
 	
 	var mouseClicked = function mouseClicked() {
 		switch (Game.screen) {
@@ -33,7 +33,7 @@ function (Game, Canvas, Character, Images, InPlay, GameLogic, Sounds) {
 		case "game_over":
 			Action.gameOverButtonCheck();
 		}
-	}
+	};
 	
 	var gameOverButtonCheck = function gameOverButtonCheck() {
 		var mouseX, mouseY, part1, part2;
@@ -71,36 +71,35 @@ function (Game, Canvas, Character, Images, InPlay, GameLogic, Sounds) {
 		if (mouseX >= part1 * 2.1 && mouseX <= part1 * 2.1 + part1 * 0.75 && mouseY >= part2 * 2 && mouseY <= part2 * 2 + part2 * 0.7) {
 			Game.screen = "about";
 		}
-	}
+	};
 	var enemyShoot = function enemyShoot(x, y, damage) {
-	    var bullet, i, tempDamage, tempX, tempY;
-	    tempX = x;
-	    tempY = y;
-	    tempDamage = damage;
-	    Sounds.laser2.play();
-	    bullet = {
-			x:		            tempX,
-			y:		            tempY+52,
+		var bullet, i, tempDamage, tempX, tempY;
+        tempX = x;
+        tempY = y;
+        tempDamage = damage;
+        Sounds.laser2.play();
+        bullet = {
+			x:					tempX,
+			y:					tempY+52,
 			damage:             tempDamage,
-			alive:	            true,
-			type:        Images.redLaser1
+			alive:				true,
+			type:				Images.redLaser1
 		};
 		InPlay.enemyBullets.push(bullet);
 	};
 	
 	var playerShoot = function playerShoot() {
 		var bullet, i, tempDamage, tempType;
+		upgrade = Character.ship.player.upgrade;
 		Sounds.laser1.play();
 		bullet = {
 			x:		100,
 			y:		Game.mouse.pos.y,
 			alive:	true
 		};
-		switch (Character.ship.player.upgrade) {
-		case 1:
+		if (upgrade === 1) {
 			tempDamage = Character.ship.player.upgrade * 10;
 			tempType = Images.blueLaser1;
-			break;
 		}
 		for (i = 0; i < Character.ship.player.guns; i += 1) {
 			//gun1
@@ -113,7 +112,7 @@ function (Game, Canvas, Character, Images, InPlay, GameLogic, Sounds) {
 			}
 			//gun2
 		}
-	}
+	};
 	
 	var resetVariables = function resetVariables() {
 		//game resets
@@ -122,6 +121,7 @@ function (Game, Canvas, Character, Images, InPlay, GameLogic, Sounds) {
 		Game.level = 1;
 		Game.levelStarted = false;
 		InPlay.enemies.length = 0;
+		InPlay.enemyBullets.length = 0;
 		InPlay.powerUps = 0;
 		//character resets
 		Character.ship.player.score = 0;

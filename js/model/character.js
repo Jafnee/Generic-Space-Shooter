@@ -19,6 +19,7 @@ define(["model/images"], function (Images) {
 							alive:		true,
 							damage:		0,
 							fireRate:   0,
+							hasShot:    false,
 							score:		10,
 							x:			0,
 							y:			0,
@@ -32,6 +33,7 @@ define(["model/images"], function (Images) {
 							alive:		true,
 							damage:		10,
 							fireRate:   2,
+							hasShot:    false,
 							score:		20,
 							x:			100,
 							y:			100,
@@ -45,6 +47,7 @@ define(["model/images"], function (Images) {
 							alive:		true,
 							damage:		10,
 							fireRate:   2,
+							hasShot:    false,
 							score:		30,
 							x:			100,
 							y:			100,
@@ -58,6 +61,7 @@ define(["model/images"], function (Images) {
 							alive:		true,
 							damage:		0,
 							fireRate:   0,
+							hasShot:    false,
 							score:		30,
 							x:			100,
 							y:			100,
@@ -71,6 +75,7 @@ define(["model/images"], function (Images) {
 							alive:		true,
 							damage:		0,
 							fireRate:   0,
+							hasShot:    false,
 							score:		40,
 							x:			100,
 							y:			100,
@@ -86,5 +91,5 @@ define(["model/images"], function (Images) {
 	var Character = {
 		ship:		ship
 	};
-	return Character
+	return Character;
 });

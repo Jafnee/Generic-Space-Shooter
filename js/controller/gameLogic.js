@@ -1,11 +1,11 @@
-define(["model/game", "model/character", "model/inPlay", "model/canvas"], function (Game, Character, InPlay, Canvas) {
+define(["model/game", "model/character", "model/inPlay", "model/canvas", "model/sounds"], function (Game, Character, InPlay, Canvas, Sounds) {
 	var timerInterval;
 	var resetTimer = function resetTimer() {
 		Game.timer = 0;
 	};
 	
 	var clone = (function(){
-		return function (obj) { Clone.prototype=obj; return new Clone() };
+		return function (obj) { Clone.prototype=obj; return new Clone(); };
 		function Clone(){}
 	}());
 	
@@ -16,19 +16,19 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas"], functi
 				GameLogic.addScore(2);
 			}
 		}, 10);
-	}
+	};
 	
 	var addScore = function addScore(add) {
 		Character.ship.player.score += add;
-	}
+	};
 	
 	var stopTimer = function stopTimer() {
 		clearInterval(timerInterval);
-	}
+	};
 	
 	var getTimer = function getTimer() {
 		return Game.timer;
-	}
+	};
 
 	var timer = {
 		reset:			resetTimer,
@@ -67,6 +67,7 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas"], functi
 	
 	var checkBulletCollision = function checkBulletCollision() {
 		var bullet, ship;
+		var playerPos = Character.ship.player.pos;
 		var playerBullets = InPlay.playerBullets;
 		var enemies = InPlay.enemies;
 		for (bullet = 0; bullet < playerBullets.length; bullet++) {
@@ -82,6 +83,20 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas"], functi
 									GameLogic.addScore(enemies[ship].score);
 								}
 							}
+						}
+					}
+				}
+			}
+		}
+		for (bullet = 0; bullet < enemyBullets.length; bullet++) {
+			if (enemyBullets[bullet].alive) {
+				if (enemyBullets[bullet].x >= playerPos.x && enemyBullets[bullet].x <= (playerPos.x + 75)) {
+					if (enemyBullets[bullet].y >= (playerPos.y - 49.5) && enemyBullets[bullet].y <= ((playerPos.y + 90) - 49.5)) {
+						Sounds.playerHit.play();
+						enemyBullets[bullet].alive = false;
+						Character.ship.player.hp -= enemyBullets[bullet].damage;
+						if (Character.ship.player.hp <= 0) {
+							GameLogic.gameOver();						
 						}
 					}
 				}
@@ -135,7 +150,7 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas"], functi
 			} 
 		}
 		return verdict;
-	}
+	};
 	
 	var addEnemies = function addEnemies(level) {
 		var i, enemy, x, y, noEnemies, rate, selector, lvlSelector;
@@ -144,7 +159,7 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas"], functi
 			lvlSelector = Game.level;
 		} else {
 			lvlSelector = 5;
-		};
+		}
 		if (Game.level < 3) {
 			rate = 1;
 		} else {

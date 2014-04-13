@@ -1,4 +1,4 @@
-define(["model/images", "model/game"], function (Images, Game) {
+define(["model/images"], function (Images) {
 	var generateStar = function generateStar(old) {
 		star = {
 			y:		Math.floor(Math.random() * canvasHeight) + 1,
@@ -10,7 +10,7 @@ define(["model/images", "model/game"], function (Images, Game) {
 			star.x = Math.floor(Math.random() * canvasWidth) + 1;
 		}
 		return star;
-	}
+	};
 	
 	var addStars = function addStars() {
 		"use strict";
@@ -18,7 +18,7 @@ define(["model/images", "model/game"], function (Images, Game) {
 		for (i = 0; i < Game.noStars; i += 1) {
 			Game.stars.push(generateStar());
 		}
-	}
+	};
 
 	var getScreen = function getScreen() {
 		var screen, curPage;
@@ -29,7 +29,7 @@ define(["model/images", "model/game"], function (Images, Game) {
 			Game.screen = "about";
 		}
 		return screen;
-	}
+	};
 	
 	var keyboard = {
 		use:	false,

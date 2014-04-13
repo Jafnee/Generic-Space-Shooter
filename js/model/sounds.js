@@ -10,10 +10,15 @@ define(["howler"], function (Howler) {
 	
 	var laser2 = new Howl({
 		urls:		["./sound/sfx/sfx_laser2.ogg"]
-	});	
+	});
+	
+	var playerHit = new Howl({
+		urls:		["./sound/sfx/sfx_shieldDown.ogg"]
+	});
 	
 	var Sounds = {
 		bgMusic:			bgMusic,
+		playerHit:			playerHit,
 		laser1:				laser1,
 		laser2:				laser2
 	};
