@@ -202,34 +202,11 @@ function (Images, Canvas, Game, Character, GameLogic, InPlay, Action) {
 		Draw.drawBullets();
 		Draw.drawPlayerShip();
 		Draw.drawEnemies();
-	};
+	};		
 	
-	var draw = function draw() {
-		Draw.drawBackground();
-		//Checks which screen user is on
-		switch (Game.screen) {
-		case "main_menu":
-			Draw.drawMenu();
-			break;
-		case "game":
-			Draw.drawGame();
-			GameLogic.checkCollisions();
-			break;
-		case "game_over":
-			Draw.drawMenu();
-			break;
-		}
-		fpsCalc();
-	};
-		
-	var animate = function animate() {
-		requestAnimationFrame(Draw.animate);		
-		Draw.draw();
-	};
-		
 	var Draw = {
 		//functions
-		animate:				animate,
+	
 		drawStars:				drawStars,
 		fpsCalc:				fpsCalc,
 		drawBackground:			drawBackground,
@@ -241,8 +218,8 @@ function (Images, Canvas, Game, Character, GameLogic, InPlay, Action) {
 		drawGame:				drawGame,
 		drawMainMenu:			drawMainMenu,
 		drawMenu:				drawMenu,
-		drawGameOver:			drawGameOver,
-		draw:					draw
+		drawGameOver:			drawGameOver
+	
 	};	
 	
 	return Draw;

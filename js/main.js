@@ -1,5 +1,5 @@
-define(["model/sounds","model/images",	"model/canvas", "model/character", "model/game", "view/draw", "controller/listener", "controller/action", "controller/keybind"], 
-function (Sounds, Images, Canvas, Character, Game, Draw, Listener, Action, Keybind){
+define(["model/sounds","model/images",	"model/canvas", "model/character", "model/game", "view/draw", "controller/listener", "controller/action", "controller/keybind", "controller/gameRunner"], 
+function (Sounds, Images, Canvas, Character, Game, Draw, Listener, Action, Keybind, GameRunner){
 //test
 
 	
@@ -7,5 +7,5 @@ function (Sounds, Images, Canvas, Character, Game, Draw, Listener, Action, Keybi
 	Sounds.bgMusic.play();
 	Game.getScreen();
 	Game.addStars();
-	Draw.animate();	
+	GameRunner.gameLoop();	
 });
