@@ -78,6 +78,10 @@ function (Images, Canvas, Game, Character, GameLogic, InPlay, Action) {
 		Canvas.context.drawImage(about, part1 * 2.1, part2 * 2, part1 * 0.75, part2 * 0.7);
 	};
 	
+	var drawOptions = function drawOptions() {
+		console.log("options screen");
+	};
+	
 	var drawMenu = function drawMenu() {
 		switch (Game.screen) {
 		case "main_menu":
@@ -85,6 +89,9 @@ function (Images, Canvas, Game, Character, GameLogic, InPlay, Action) {
 			break;
 		case "game_over":
 			Draw.drawGameOver();
+			break;
+		case "options":
+			Draw.drawOptions();
 			break;
 		default:
 			break;
@@ -217,6 +224,7 @@ function (Images, Canvas, Game, Character, GameLogic, InPlay, Action) {
 		drawBullets:			drawBullets,
 		drawGame:				drawGame,
 		drawMainMenu:			drawMainMenu,
+		drawOptions:			drawOptions,
 		drawMenu:				drawMenu,
 		drawGameOver:			drawGameOver
 	

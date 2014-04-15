@@ -152,7 +152,7 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas", "model/
 		return verdict;
 	};
 	
-	var addEnemies = function addEnemies(level) {
+	var addEnemies = function addEnemies() {
 		var i, enemy, x, y, noEnemies, rate, selector, lvlSelector;
 		noEnemies = Game.level * 5;
 		if (Game.level <= 5) {

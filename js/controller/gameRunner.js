@@ -2,7 +2,7 @@ define(["view/draw", "model/game", "controller/gameLogic"], function (Draw, Game
 	var gameLoop = function gameLoop() {
 		requestAnimationFrame(GameRunner.gameLoop);
 		GameRunner.draw();
-	}
+	};
 	
 	var draw = function draw() {
 		Draw.drawBackground();
@@ -18,16 +18,20 @@ define(["view/draw", "model/game", "controller/gameLogic"], function (Draw, Game
 		case "game_over":
 			Draw.drawMenu();
 			break;
+		case "options":
+			Draw.drawMenu();
+			break;
 		}
 		Draw.fpsCalc();
 	};
 		
 	var animate = function animate() {
-		requestAnimationFrame(Draw.animate);		
+		requestAnimationFrame(GameRunner.animate);		
 		Draw.draw();
 	};
 	
 	var GameRunner = {
+		animate:				animate,
 		gameLoop:				gameLoop,
 		draw:					draw	
 	};

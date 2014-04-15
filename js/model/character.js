@@ -4,6 +4,7 @@ define(["model/images"], function (Images) {
 		score:			0,
 		upgrade:		1,
 		guns:			1,
+		fireRate:		2,
 		hp:				100,
 		lives:			3,
 		pos:			pos = {
@@ -15,7 +16,7 @@ define(["model/images"], function (Images) {
 		scout:			scout = {
 							name:		"scout",
 							ship:		Images.scout,
-							hp:			10,
+							hp:			20,
 							alive:		true,
 							damage:		0,
 							fireRate:   0,
@@ -29,7 +30,7 @@ define(["model/images"], function (Images) {
 		fighter:		fighter = {
 							name:		"fighter",
 							ship:		Images.fighter,
-							hp:			20,
+							hp:			40,
 							alive:		true,
 							damage:		10,
 							fireRate:   2,
@@ -43,7 +44,7 @@ define(["model/images"], function (Images) {
 		interceptor:	interceptor = {
 							name:		"interceptor",
 							ship:		Images.interceptor,
-							hp:			20,
+							hp:			60,
 							alive:		true,
 							damage:		10,
 							fireRate:   2,
@@ -71,7 +72,7 @@ define(["model/images"], function (Images) {
 		transport:		transport = {
 							name:	"transport",
 							ship:		Images.transport,
-							hp:			20,
+							hp:			40,
 							alive:		true,
 							damage:		0,
 							fireRate:   0,

@@ -1,4 +1,4 @@
-define(["model/images"], function (Images) {
+define([], function () {
 	var generateStar = function generateStar(old) {
 		star = {
 			y:		Math.floor(Math.random() * canvasHeight) + 1,
@@ -33,6 +33,7 @@ define(["model/images"], function (Images) {
 	
 	var keyboard = {
 		use:	false,
+		sbFlag:	false,
 		pos:	pos = {
 					x:		100,
 					y:		100
@@ -40,6 +41,7 @@ define(["model/images"], function (Images) {
 	};
 	var mouse = {
 		use:	false,
+		mdFlag:	false,
 		pos:	pos = {
 					x:		100,
 					y:		100

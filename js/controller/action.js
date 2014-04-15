@@ -1,10 +1,14 @@
 define(["model/game", "model/canvas", "model/character", "model/images", "model/inPlay", "controller/gameLogic", "model/sounds"],
 function (Game, Canvas, Character, Images, InPlay, GameLogic, Sounds) {
+	var shooting;
 	var getMousePos = function getMousePos(evt) {
 		Game.mouse.use = true;
 		var rect = Canvas.canvas.getBoundingClientRect();
 		Game.mouse.pos.x = evt.clientX - rect.left;
 		Game.mouse.pos.y = evt.clientY - rect.top;
+		if (Game.mouse.pos.x <= 0 || Game.mouse.pos.x >= Canvas.canvasWidth || Game.mouse.pos.y <= 0 || Game.mouse.pos.y >= Canvas.canvasHeight) {
+			clearInterval(shooting);
+		}
 	};
 	
 	var resize = function resize() {
@@ -20,18 +24,31 @@ function (Game, Canvas, Character, Images, InPlay, GameLogic, Sounds) {
 		canvasHeight = canvas.height;		
 	};
 	
-	var mouseClicked = function mouseClicked() {
+	var mouseClicked = function mouseClicked(down) {
 		switch (Game.screen) {
 		case "main_menu":
-			Action.mainMenuButtonCheck();
+			if (down) {
+				Action.mainMenuButtonCheck();
+			}
 			break;
 		case "game":
-			if (Character.ship.player.hp > 0) {
-				Action.playerShoot();
+			if (down && !Game.keyboard.sbFlag) {
+				Game.keyboard.sbFlag = true;
+				shooting = setInterval(function() {
+					if (Character.ship.player.hp > 0) {
+						Action.playerShoot();
+					}
+				}, Character.ship.player.fireRate * 100);
+			} else if(!down){
+				clearInterval(shooting);
+				Game.keyboard.sbFlag = false;
 			}
 			break;
 		case "game_over":
+			if (down) {
 			Action.gameOverButtonCheck();
+			}
+			break;
 		}
 	};
 	
@@ -73,7 +90,7 @@ function (Game, Canvas, Character, Images, InPlay, GameLogic, Sounds) {
 		}
 	};
 	var enemyShoot = function enemyShoot(x, y, damage) {
-		var bullet, i, tempDamage, tempX, tempY;
+		var bullet, tempDamage, tempX, tempY;
         tempX = x;
         tempY = y;
         tempDamage = damage;
@@ -90,27 +107,29 @@ function (Game, Canvas, Character, Images, InPlay, GameLogic, Sounds) {
 	
 	var playerShoot = function playerShoot() {
 		var bullet, i, tempDamage, tempType;
-		upgrade = Character.ship.player.upgrade;
-		Sounds.laser1.play();
-		bullet = {
-			x:		100,
-			y:		Game.mouse.pos.y,
-			alive:	true
-		};
-		if (upgrade === 1) {
-			tempDamage = Character.ship.player.upgrade * 10;
-			tempType = Images.blueLaser1;
-		}
-		for (i = 0; i < Character.ship.player.guns; i += 1) {
-			//gun1
-			if (i === 0) {
-				bullet.x += 60;
-				bullet.y -= 5;
-				bullet.type = tempType;
-				bullet.damage = tempDamage;
-				InPlay.playerBullets.push(bullet);
+		if (Game.screen === "game") {
+			upgrade = Character.ship.player.upgrade;
+			Sounds.laser1.play();
+			bullet = {
+				x:		100,
+				y:		Game.mouse.pos.y,
+				alive:	true
+			};
+			if (upgrade === 1) {
+				tempDamage = Character.ship.player.upgrade * 10;
+				tempType = Images.blueLaser1;
 			}
-			//gun2
+			for (i = 0; i < Character.ship.player.guns; i += 1) {
+				//gun1
+				if (i === 0) {
+					bullet.x += 60;
+					bullet.y -= 5;
+					bullet.type = tempType;
+					bullet.damage = tempDamage;
+					InPlay.playerBullets.push(bullet);
+				}
+				//gun2
+			}
 		}
 	};
 	
