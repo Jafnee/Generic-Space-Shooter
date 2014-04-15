@@ -109,7 +109,14 @@ function (Images, Canvas, Game, Character, GameLogic, InPlay, Action) {
 		var i;
 		powerUps = InPlay.powerUps;
 		for (i = 0; i < powerUps.length; i +=1) {
-			Canvas.context.drawImage(Images.pickupHealth, powerUps[i].x, powerUps[i].y);
+			if (powerUps[i].alive) {
+				Canvas.context.drawImage(powerUps[i].icon, powerUps[i].x, powerUps[i].y);
+				if (powerUps[i].x <= -10) {
+					powerUps[i].alive = false;
+				} else {
+					powerUps[i].x -=2;
+				}
+			}
 		}
 	};
 	
@@ -123,6 +130,7 @@ function (Images, Canvas, Game, Character, GameLogic, InPlay, Action) {
 					Canvas.context.drawImage(enemies[i].ship, enemies[i].x, enemies[i].y);
 					if (enemies[i].x <= -140) {
 						enemies[i].alive = false;
+						Character.ship.player.score -= enemies[i].score*2;
 					} else {
 						enemies[i].x -= enemies[i].speed;
 						if (enemies[i].name === "interceptor") {

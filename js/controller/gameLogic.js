@@ -1,4 +1,4 @@
-define(["model/game", "model/character", "model/inPlay", "model/canvas", "model/sounds"], function (Game, Character, InPlay, Canvas, Sounds) {
+define(["model/game", "model/character", "model/inPlay", "model/canvas", "model/sounds", "model/images"], function (Game, Character, InPlay, Canvas, Sounds, Images) {
 	var timerInterval;
 	var resetTimer = function resetTimer() {
 		Game.timer = 0;
@@ -67,6 +67,7 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas", "model/
 	
 	var checkBulletCollision = function checkBulletCollision() {
 		var bullet, ship;
+		var enemyBullets = InPlay.enemyBullets;
 		var playerPos = Character.ship.player.pos;
 		var playerBullets = InPlay.playerBullets;
 		var enemies = InPlay.enemies;
@@ -112,17 +113,46 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas", "model/
 		selector = Math.floor(Math.random() * (3 - 1 + 1) + 1);
 		var pickUp = {
 			x:			x,
-			y:			y
+			y:			y + 45,
+			alive:		true
 		};
 		if (selector === 1) {
-			console.log("Health");
+			pickUp.type = "health";
+			pickUp.icon = Images.pickUpHealth;
 		} else if (selector === 2) {
-			console.log("FireRate");
+			pickUp.type = "fireRate";
+			pickUp.icon = Images.pickUpFireRate;
 		} else if (selector === 3) {
-			console.log("Damage");
+			pickUp.type = "damage";
+			pickUp.icon = Images.pickUpDamage;
 		}
 		InPlay.powerUps.push(pickUp);
 		//InPlay.enemies.push(enemy);
+	};
+	
+	var checkPickUp = function checkPickUp() {
+		var powerUps = InPlay.powerUps;
+		var player = Character.ship.player;
+		var i;
+		for (i = 0; i < powerUps.length; i++ ) {
+			if (powerUps[i].alive) {
+				if (powerUps[i].x >= player.pos.x && powerUps[i].x <= (player.pos.x +75)) {
+					if (powerUps[i].y >= (player.pos.y - 49.5) && powerUps[i].y <= ((player.pos.y + 99) - 49.5)) {
+						if (powerUps[i].type === "health") {
+							player.hp += 5;
+							if (player.hp > 100) {
+								player.hp = 100;
+							}
+						} else if (powerUps[i].type === "fireRate") {
+							player.fireRate -= 0.1;
+						} else if (powerUps[i].type === "damage") {
+							player.damage += 1;
+						}
+						powerUps[i].alive = false;
+					}
+				}
+			}
+		}
 	};
 	
 	var checkShipCollision = function checkShipCollision() {
@@ -133,8 +163,12 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas", "model/
 			if (Character.ship.player.hp > 0 && enemies[ship].alive) {
 				if (enemies[ship].x >= playerPos.x && enemies[ship].x <= (playerPos.x + 75)) {
 					if ((enemies[ship].y >= (playerPos.y - 49.5) && enemies[ship].y <= ((playerPos.y + 99)- 49.5)) || ((playerPos.y -49.5) >= enemies[ship].y && (playerPos.y -49.5) <= (enemies[ship].y + 90))) {
-						Character.ship.player.hp = 0;
-						GameLogic.gameOver();
+						Sounds.playerHit.play();
+						enemies[ship].alive = false;
+						Character.ship.player.hp -= enemies[ship].hp;
+						if (Character.ship.player.hp <= 0) {
+							GameLogic.gameOver();
+						}
 					}
 				}
 			}
@@ -142,6 +176,7 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas", "model/
 	};
 	
 	var gameOver = function gameOver() {
+		var enemies = InPlay.enemies;
 		GameLogic.timer.stop();
 		enemies.length = 0;
 		Game.levelStarted = false;
@@ -153,6 +188,7 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas", "model/
 		GameLogic.checkShipCollision();
 		GameLogic.checkBulletCollision();
 		GameLogic.checkEnemiesDead();
+		GameLogic.checkPickUp();
 	};
 	
 	var spawnCheck = function spawnCheck(newShip,spawnTime) {
@@ -190,15 +226,15 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas", "model/
 		GameLogic.level.startTime = Game.timer;
 		for (i = 0; i < noEnemies; i ++) {
 			selector = Math.floor(Math.random() * (lvlSelector - 1 + 1) + 1);
-			if (selector == 1) {
+			if (selector === 1) {
 				enemy = GameLogic.clone(Character.ship.enemy.scout);
-			} else if (selector == 2) {
+			} else if (selector === 2) {
 				enemy = GameLogic.clone(Character.ship.enemy.fighter);
-			} else if (selector == 3) {
+			} else if (selector === 3) {
 				enemy = GameLogic.clone(Character.ship.enemy.transport);			
-			} else if (selector == 4) {
+			} else if (selector === 4) {
 				enemy = GameLogic.clone(Character.ship.enemy.tank);
-			} else if (selector == 5) {
+			} else if (selector === 5) {
 				enemy = GameLogic.clone(Character.ship.enemy.interceptor);
 			}
 			y = Math.floor(Math.random() * (Canvas.canvasHeight - 90)) + 1;
@@ -206,6 +242,7 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas", "model/
 				x = Canvas.canvasWidth + 100;
 				enemy.y = y;
 				enemy.x = x;
+				enemy.hp += Game.level * 3;
 				enemy.time = time;
 				time += rate;
 				InPlay.enemies.push(enemy);
@@ -229,6 +266,7 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas", "model/
 		addEnemies:					addEnemies,
 		checkBulletCollision:		checkBulletCollision,
 		checkShipCollision:			checkShipCollision,
+		checkPickUp:				checkPickUp,
 		checkCollisions:			checkCollisions,
 		checkEnemiesDead:			checkEnemiesDead,
 		dropPickUp:					dropPickUp,

@@ -134,22 +134,16 @@ function (Game, Canvas, Character, Images, InPlay, GameLogic, Sounds) {
 				y:		Character.ship.player.pos.y,
 				alive:	true
 			};
-			if (upgrade === 1) {
-				tempDamage = Character.ship.player.upgrade * 10;
-				tempType = Images.blueLaser1;
-			}
-			for (i = 0; i < Character.ship.player.guns; i += 1) {
-				//gun1
-				if (i === 0) {
-					bullet.x += 60;
-					bullet.y -= 4;
-					bullet.type = tempType;
-					bullet.damage = tempDamage;
-					InPlay.playerBullets.push(bullet);
-				}
-				//gun2
-			}
-		}
+			tempDamage = Character.ship.player.damage;
+			tempType = Images.blueLaser1;
+			
+			//gun1
+			bullet.x += 60;
+			bullet.y -= 4;
+			bullet.type = tempType;
+			bullet.damage = tempDamage;
+			InPlay.playerBullets.push(bullet);
+		}		
 	};
 	
 	var resetVariables = function resetVariables() {

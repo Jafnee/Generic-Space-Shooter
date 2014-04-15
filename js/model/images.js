@@ -28,11 +28,11 @@ define([""], function () {
 		gun0:			"images/misc/gun/gun00.png",
 		//bullets
 		blueLaser1:		"images/misc/laser/laserBlue01.png",
-		redLaser1:		"images/misc/laser/laserRed12.png",
+		redLaser1:		"images/misc/laser/laserRed02.png",
 		//pickups
-		pickupHealth:	"images/misc/pickup/pickup_health.png",
-		pickupDamage:	"images/misc/pickup/pickup_damage.png",
-		pickupFireRate:	"images/misc/pickup/pickup_firerate.png"
+		pickUpHealth:	"images/misc/pickup/pickup_health.png",
+		pickUpDamage:	"images/misc/pickup/pickup_damage.png",
+		pickUpFireRate:	"images/misc/pickup/pickup_firerate.png"
 	};
 	for (src in sources) {
 		Images[src] = new Image();
