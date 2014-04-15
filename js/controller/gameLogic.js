@@ -81,6 +81,9 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas", "model/
 								if (enemies[ship].hp <= 0) {
 									enemies[ship].alive = false;
 									GameLogic.addScore(enemies[ship].score);
+									if (enemies[ship].name === "transport") {
+										GameLogic.dropPickUp(enemies[ship].x, enemies[ship].y);
+									}
 								}
 							}
 						}
@@ -102,6 +105,24 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas", "model/
 				}
 			}
 		}
+	};
+	
+	var dropPickUp = function dropPickUp(x, y) {
+		var selector;
+		selector = Math.floor(Math.random() * (3 - 1 + 1) + 1);
+		var pickUp = {
+			x:			x,
+			y:			y
+		};
+		if (selector === 1) {
+			console.log("Health");
+		} else if (selector === 2) {
+			console.log("FireRate");
+		} else if (selector === 3) {
+			console.log("Damage");
+		}
+		InPlay.powerUps.push(pickUp);
+		//InPlay.enemies.push(enemy);
 	};
 	
 	var checkShipCollision = function checkShipCollision() {
@@ -210,6 +231,7 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas", "model/
 		checkShipCollision:			checkShipCollision,
 		checkCollisions:			checkCollisions,
 		checkEnemiesDead:			checkEnemiesDead,
+		dropPickUp:					dropPickUp,
 		addScore:					addScore,
 		gameOver:					gameOver,
 		//variables

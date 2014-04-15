@@ -34,10 +34,8 @@ define([], function () {
 	var keyboard = {
 		use:	false,
 		sbFlag:	false,
-		pos:	pos = {
-					x:		100,
-					y:		100
-				}
+		up:		false,
+		down:	false	
 	};
 	var mouse = {
 		use:	false,

@@ -7,5 +7,5 @@ function (Sounds, Images, Canvas, Character, Game, Draw, Listener, Action, Keybi
 	Sounds.bgMusic.play();
 	Game.getScreen();
 	Game.addStars();
-	GameRunner.gameLoop();	
+	GameRunner.gameLoop();
 });

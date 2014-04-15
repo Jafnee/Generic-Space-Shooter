@@ -2,10 +2,12 @@ define(["model/game", "model/canvas", "model/character", "model/images", "model/
 function (Game, Canvas, Character, Images, InPlay, GameLogic, Sounds) {
 	var shooting;
 	var getMousePos = function getMousePos(evt) {
+		Game.keyboard.use = false;
 		Game.mouse.use = true;
 		var rect = Canvas.canvas.getBoundingClientRect();
 		Game.mouse.pos.x = evt.clientX - rect.left;
 		Game.mouse.pos.y = evt.clientY - rect.top;
+		Character.ship.player.pos.y = Game.mouse.pos.y;
 		if (Game.mouse.pos.x <= 0 || Game.mouse.pos.x >= Canvas.canvasWidth || Game.mouse.pos.y <= 0 || Game.mouse.pos.y >= Canvas.canvasHeight) {
 			clearInterval(shooting);
 		}
@@ -24,10 +26,12 @@ function (Game, Canvas, Character, Images, InPlay, GameLogic, Sounds) {
 		canvasHeight = canvas.height;		
 	};
 	
-	var mouseClicked = function mouseClicked(down) {
+	var mouseClicked = function mouseClicked(down, kb) {
+		Game.keyboard.use = false;
+		Game.mouse.use = true;
 		switch (Game.screen) {
 		case "main_menu":
-			if (down) {
+			if (down && !kb) {
 				Action.mainMenuButtonCheck();
 			}
 			break;
@@ -45,10 +49,24 @@ function (Game, Canvas, Character, Images, InPlay, GameLogic, Sounds) {
 			}
 			break;
 		case "game_over":
-			if (down) {
+			if (down && !kb  ) {
 			Action.gameOverButtonCheck();
 			}
 			break;
+		}
+	};
+	
+	var moveShip = function moveShip() {
+		if (Game.keyboard.use) {
+			if (Game.keyboard.up) {
+				if (Character.ship.player.pos.y >= 45.5) {
+					Character.ship.player.pos.y -= 10;
+				}
+			} else if (Game.keyboard.down) {
+				if (Character.ship.player.pos.y <= Canvas.canvasHeight - 45.5) {
+					Character.ship.player.pos.y += 10;
+				}
+			}
 		}
 	};
 	
@@ -89,6 +107,7 @@ function (Game, Canvas, Character, Images, InPlay, GameLogic, Sounds) {
 			Game.screen = "about";
 		}
 	};
+	
 	var enemyShoot = function enemyShoot(x, y, damage) {
 		var bullet, tempDamage, tempX, tempY;
         tempX = x;
@@ -103,7 +122,7 @@ function (Game, Canvas, Character, Images, InPlay, GameLogic, Sounds) {
 			type:				Images.redLaser1
 		};
 		InPlay.enemyBullets.push(bullet);
-	};
+	};	
 	
 	var playerShoot = function playerShoot() {
 		var bullet, i, tempDamage, tempType;
@@ -112,7 +131,7 @@ function (Game, Canvas, Character, Images, InPlay, GameLogic, Sounds) {
 			Sounds.laser1.play();
 			bullet = {
 				x:		100,
-				y:		Game.mouse.pos.y,
+				y:		Character.ship.player.pos.y,
 				alive:	true
 			};
 			if (upgrade === 1) {
@@ -123,7 +142,7 @@ function (Game, Canvas, Character, Images, InPlay, GameLogic, Sounds) {
 				//gun1
 				if (i === 0) {
 					bullet.x += 60;
-					bullet.y -= 5;
+					bullet.y -= 4;
 					bullet.type = tempType;
 					bullet.damage = tempDamage;
 					InPlay.playerBullets.push(bullet);
@@ -141,7 +160,7 @@ function (Game, Canvas, Character, Images, InPlay, GameLogic, Sounds) {
 		Game.levelStarted = false;
 		InPlay.enemies.length = 0;
 		InPlay.enemyBullets.length = 0;
-		InPlay.powerUps = 0;
+		InPlay.powerUps.length = 0;
 		//character resets
 		Character.ship.player.score = 0;
 		Character.ship.player.hp = 100;
@@ -151,9 +170,10 @@ function (Game, Canvas, Character, Images, InPlay, GameLogic, Sounds) {
 	};
 	
 	var Action = {
+		moveShip:				moveShip,
 		mouseClicked:			mouseClicked,
 		playerShoot:			playerShoot,
-		enemyShoot:             enemyShoot,
+		enemyShoot:             enemyShoot,		
 		resetVariables:			resetVariables,
 		mainMenuButtonCheck:	mainMenuButtonCheck,
 		gameOverButtonCheck:	gameOverButtonCheck,

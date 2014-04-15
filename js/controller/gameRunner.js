@@ -1,7 +1,8 @@
-define(["view/draw", "model/game", "controller/gameLogic"], function (Draw, Game, GameLogic) {
+define(["view/draw", "model/game", "controller/gameLogic", "controller/action"], function (Draw, Game, GameLogic, Action) {
 	var gameLoop = function gameLoop() {
 		requestAnimationFrame(GameRunner.gameLoop);
 		GameRunner.draw();
+		Action.moveShip();
 	};
 	
 	var draw = function draw() {
@@ -24,14 +25,8 @@ define(["view/draw", "model/game", "controller/gameLogic"], function (Draw, Game
 		}
 		Draw.fpsCalc();
 	};
-		
-	var animate = function animate() {
-		requestAnimationFrame(GameRunner.animate);		
-		Draw.draw();
-	};
 	
 	var GameRunner = {
-		animate:				animate,
 		gameLoop:				gameLoop,
 		draw:					draw	
 	};

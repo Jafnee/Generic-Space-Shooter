@@ -99,14 +99,19 @@ function (Images, Canvas, Game, Character, GameLogic, InPlay, Action) {
 	};
 	
 	var drawPlayerShip = function drawPlayerShip() {
-		if (Game.mouse.use) {
-			Character.ship.player.pos.y = Game.mouse.pos.y;
-		}
 		if (Character.ship.player.hp > 0) {
 			Canvas.context.drawImage(Images.gun0, Character.ship.player.pos.x + 55, Character.ship.player.pos.y - 8.5);
 			Canvas.context.drawImage(Images.blueShip, Character.ship.player.pos.x, Character.ship.player.pos.y - 49.5);
 		}
-	};	
+	};
+	
+	var drawPowerups = function drawPowerups() {
+		var i;
+		powerUps = InPlay.powerUps;
+		for (i = 0; i < powerUps.length; i +=1) {
+			Canvas.context.drawImage(Images.pickupHealth, powerUps[i].x, powerUps[i].y);
+		}
+	};
 	
 	var drawEnemies = function drawEnemies() {
 		var i, relativeTime;
@@ -164,7 +169,7 @@ function (Images, Canvas, Game, Character, GameLogic, InPlay, Action) {
 				}
 			}
 		}
-	};
+	};	
 	
 	var drawScore = function drawScore() {
 		var score = Character.ship.player.score;
@@ -209,6 +214,7 @@ function (Images, Canvas, Game, Character, GameLogic, InPlay, Action) {
 		Draw.drawBullets();
 		Draw.drawPlayerShip();
 		Draw.drawEnemies();
+		Draw.drawPowerups();
 	};		
 	
 	var Draw = {
@@ -221,6 +227,7 @@ function (Images, Canvas, Game, Character, GameLogic, InPlay, Action) {
 		drawScore:				drawScore,
 		drawPlayerShip:			drawPlayerShip,
 		drawEnemies:			drawEnemies,
+		drawPowerups:			drawPowerups,
 		drawBullets:			drawBullets,
 		drawGame:				drawGame,
 		drawMainMenu:			drawMainMenu,
