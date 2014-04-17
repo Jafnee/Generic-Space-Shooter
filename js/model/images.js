@@ -17,8 +17,19 @@ define([""], function () {
 		restart1:		"images/menu/button/restart1.png",
 		mainMenu0:		"images/menu/button/mainMenu0.png",
 		mainMenu1:		"images/menu/button/mainMenu1.png",
+		disableHelp0:	"images/menu/button/disableHelp0.png",
+		disableHelp1:	"images/menu/button/disableHelp1.png",
+		muteSFX0:		"images/menu/button/muteSFX0.png",
+		muteSFX1:		"images/menu/button/muteSFX1.png",
+		muteMusic0:		"images/menu/button/muteMusic0.png",
+		muteMusic1:	"images/menu/button/muteMusic1.png",
 		//ships
+		//playership
 		blueShip:		"images/character/player/playerShipBlue.png",
+		blueShip2:		"images/character/player/playerShipBlue2.png",
+		blueShip3:		"images/character/player/playerShipBlue3.png",
+		blueShip4:		"images/character/player/playerShipBlue4.png",
+		//enemy ships
 		scout:			"images/character/enemy/enemyBlack1.png",
 		fighter:		"images/character/enemy/enemyBlack2.png",
 		interceptor:	"images/character/enemy/enemyBlack3.png",

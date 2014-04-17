@@ -1,11 +1,11 @@
 define([""], function () {
 	
-	canvas = document.getElementById("gameCanvas");
-	context = canvas.getContext("2d");
+	var canvas = document.getElementById("gameCanvas");
+	var context = canvas.getContext("2d");
 	context.canvas.width = window.innerWidth;
 	context.canvas.height = window.innerHeight - 70;
-	canvasWidth = canvas.width;
-	canvasHeight = canvas.height;
+	var canvasWidth = canvas.width;
+	var canvasHeight = canvas.height;
 	
 	var Canvas = {
 		//functions

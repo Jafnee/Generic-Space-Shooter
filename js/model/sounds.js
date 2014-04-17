@@ -1,6 +1,7 @@
 define(["howler"], function (Howler) {
 	var bgMusic = new Howl({
-		urls:		["./sound/music/DST-DasElectron.ogg"],		
+		urls:		["./sound/music/DST-DasElectron.ogg"],
+		buffer:		true,
 		loop:		true
 	});
 	
@@ -16,7 +17,11 @@ define(["howler"], function (Howler) {
 		urls:		["./sound/sfx/sfx_shieldDown.ogg"]
 	});
 	
+	var powerUp = new Howl({
+		urls:		["./sound/sfx/sfx_zap.ogg"]
+	});
 	var Sounds = {
+		powerUp:			powerUp,
 		bgMusic:			bgMusic,
 		playerHit:			playerHit,
 		laser1:				laser1,

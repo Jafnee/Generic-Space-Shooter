@@ -9,25 +9,23 @@ define(["view/draw", "model/game", "controller/gameLogic", "controller/action"],
 		Draw.drawBackground();
 		//Checks which screen user is on
 		switch (Game.screen) {
-		case "main_menu":
-			Draw.drawMenu();
-			break;
 		case "game":
 			Draw.drawGame();
 			GameLogic.checkCollisions();
 			break;
-		case "game_over":
-			Draw.drawMenu();
-			break;
-		case "options":
+		default:
 			Draw.drawMenu();
 			break;
 		}
 		Draw.fpsCalc();
 	};
 	
+	var loadUser = function loadUser() {
+	};
+	
 	var GameRunner = {
 		gameLoop:				gameLoop,
+		loadUser:				loadUser,
 		draw:					draw	
 	};
 

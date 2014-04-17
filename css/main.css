@@ -61,6 +61,13 @@ section#gameSection {
   overflow: hidden;
 }
 
+#about {
+	cursor: crosshair;
+	position: absolute;
+	top: 70px;
+	left: 0px;
+}
+
 #gameCanvas {
 	cursor: crosshair;
 	position: absolute;

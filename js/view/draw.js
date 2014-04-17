@@ -33,7 +33,7 @@ function (Images, Canvas, Game, Character, GameLogic, InPlay, Action) {
 		mousey = Game.mouse.pos.Y;
 		//Black space
 		Canvas.context.fillStyle = "#000000";
-		Canvas.context.fillRect(0, 0, canvas.width, canvas.height);
+		Canvas.context.fillRect(0, 0, Canvas.canvas.width, Canvas.canvas.height);
 		//Debris/Stars
 		drawStars();
 		//FPS indicator
@@ -79,7 +79,39 @@ function (Images, Canvas, Game, Character, GameLogic, InPlay, Action) {
 	};
 	
 	var drawOptions = function drawOptions() {
-		console.log("options screen");
+		var part1, part2, muteMusic, muteSFX, disableHelp, mainMenu;
+		part1 = Canvas.canvasWidth  / 4;
+		part2 = Canvas.canvasHeight / 4;
+		var mouseX = Game.mouse.pos.x;
+		var mouseY = Game.mouse.pos.y;
+		//Button animation
+		if (Game.muteMusic) {
+			muteMusic = Images.muteMusic1;
+		} else {
+			muteMusic = Images.muteMusic0;
+		}
+		if (Game.muteSFX) {
+			muteSFX = Images.muteSFX1;
+		} else {
+			muteSFX = Images.muteSFX0;
+		}
+		if (Game.disableHelp) {
+			disableHelp = Images.disableHelp1;
+		} else {
+			disableHelp = Images.disableHelp0;
+		}
+		if (mouseX >= part1 * 2.1 && mouseX <= part1 * 2.1 + part1 * 0.75 && mouseY >= part2 * 2 && mouseY <= part2 * 2 + part2 * 0.7) {
+			mainMenu = Images.mainMenu1;
+		} else {
+			mainMenu = Images.mainMenu0;
+		}
+		//drawing button
+		Canvas.context.drawImage(Images.blueMetal, part1, 0, part1 * 2, part2 * 3.5);
+		Canvas.context.drawImage(Images.bigLogo, part1 * 1.1, part2 * 0.1, part1 * 1.8, part2);
+		Canvas.context.drawImage(muteMusic, part1 * 1.2, part2, part1 * 0.75, part2 * 0.7);
+		Canvas.context.drawImage(muteSFX, part1 * 2.1, part2, part1 * 0.75, part2 * 0.7);
+		Canvas.context.drawImage(disableHelp, part1 * 1.2, part2 * 2, part1 * 0.75, part2 * 0.7);
+		Canvas.context.drawImage(mainMenu, part1 * 2.1, part2 * 2, part1 * 0.75, part2 * 0.7);
 	};
 	
 	var drawMenu = function drawMenu() {
@@ -93,28 +125,45 @@ function (Images, Canvas, Game, Character, GameLogic, InPlay, Action) {
 		case "options":
 			Draw.drawOptions();
 			break;
+		case "stats":
+			Draw.drawStats();
+			break;
 		default:
 			break;
 		}
 	};
 	
 	var drawPlayerShip = function drawPlayerShip() {
+		var sprite;
 		if (Character.ship.player.hp > 0) {
 			Canvas.context.drawImage(Images.gun0, Character.ship.player.pos.x + 55, Character.ship.player.pos.y - 8.5);
-			Canvas.context.drawImage(Images.blueShip, Character.ship.player.pos.x, Character.ship.player.pos.y - 49.5);
+			if (Character.ship.player.frame === 0 ) {
+				sprite = Images.blueShip;
+			} else if (Character.ship.player.frame === 1 ) {
+				sprite = Images.blueShip2;
+			} else if (Character.ship.player.frame === 2 ) {
+				sprite = Images.blueShip3;
+			} else if (Character.ship.player.frame === 3 ) {
+				sprite = Images.blueShip4;
+			} 
+			Character.ship.player.frame += 1;
+			if (Character.ship.player.frame === 4) {
+				Character.ship.player.frame = 0;
+			}
+			Canvas.context.drawImage(sprite, Character.ship.player.pos.x, Character.ship.player.pos.y - 49.5);
 		}
 	};
 	
 	var drawPowerups = function drawPowerups() {
 		var i;
-		powerUps = InPlay.powerUps;
+		var powerUps = InPlay.powerUps;
 		for (i = 0; i < powerUps.length; i +=1) {
 			if (powerUps[i].alive) {
 				Canvas.context.drawImage(powerUps[i].icon, powerUps[i].x, powerUps[i].y);
 				if (powerUps[i].x <= -10) {
 					powerUps[i].alive = false;
 				} else {
-					powerUps[i].x -=2;
+					powerUps[i].x -=4;
 				}
 			}
 		}
@@ -191,10 +240,10 @@ function (Images, Canvas, Game, Character, GameLogic, InPlay, Action) {
 	
 	var drawGameOver = function drawGameOver() {
 		var restart, mainMenu;
-		part1 = Canvas.canvasWidth  / 4;
-		part2 = Canvas.canvasHeight / 4;
-		mouseX = Game.mouse.pos.x;
-		mouseY = Game.mouse.pos.y;		
+		var part1 = Canvas.canvasWidth  / 4;
+		var part2 = Canvas.canvasHeight / 4;
+		var mouseX = Game.mouse.pos.x;
+		var mouseY = Game.mouse.pos.y;		
 		if (mouseX >= part1 * 1.2 && mouseX <= part1 * 1.2 + part1 * 0.75 && mouseY >= part2 && mouseY <= part2 + part2 * 0.7) {
 			restart = Images.restart1;
 		} else {
@@ -207,9 +256,17 @@ function (Images, Canvas, Game, Character, GameLogic, InPlay, Action) {
 		}
 		Canvas.context.drawImage(Images.blueMetal, part1, 0, part1 * 2, part2 * 2);
 		Canvas.context.drawImage(Images.bigLogo, part1 * 1.1, part2 * 0.1, part1 * 1.8, part2);
-		Canvas.context.fillText("Game Over  Level: "+Game.level+"  Score: "+Character.ship.player.score, (Canvas.canvasWidth / 2) - 345, Canvas.canvasHeight / 1.5);
 		Canvas.context.drawImage(restart, part1 * 1.2, part2, part1 * 0.75, part2 * 0.7);
 		Canvas.context.drawImage(mainMenu, part1 * 2.1, part2, part1 * 0.75, part2 * 0.7);
+		if (Game.isHighscore) {
+			//TODO add highscore sound
+			Canvas.context.fillText("HIGH SCORE", (Canvas.canvasWidth / 2) - 108, Canvas.canvasHeight / 1.7);
+		}
+		Canvas.context.fillText("Game Over  Level: "+Game.level+"  Score: "+Character.ship.player.score, (Canvas.canvasWidth / 2) - 345, Canvas.canvasHeight / 1.5);
+	};
+	
+	var drawStats = function drawStats() {
+		console.log("statsscreen");
 	};
 	
 	var drawGame = function drawGame() {
@@ -241,6 +298,7 @@ function (Images, Canvas, Game, Character, GameLogic, InPlay, Action) {
 		drawMainMenu:			drawMainMenu,
 		drawOptions:			drawOptions,
 		drawMenu:				drawMenu,
+		drawStats:				drawStats,
 		drawGameOver:			drawGameOver
 	
 	};	

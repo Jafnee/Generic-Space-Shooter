@@ -1,4 +1,4 @@
-define(["model/game", "model/character", "model/inPlay", "model/canvas", "model/sounds", "model/images"], function (Game, Character, InPlay, Canvas, Sounds, Images) {
+define(["model/game", "model/character", "model/inPlay", "model/canvas", "model/sounds", "model/images", "controller/localStorageManager"], function (Game, Character, InPlay, Canvas, Sounds, Images, LSM) {
 	var timerInterval;
 	var resetTimer = function resetTimer() {
 		Game.timer = 0;
@@ -96,7 +96,9 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas", "model/
 			if (enemyBullets[bullet].alive) {
 				if (enemyBullets[bullet].x >= playerPos.x && enemyBullets[bullet].x <= (playerPos.x + 75)) {
 					if (enemyBullets[bullet].y >= (playerPos.y - 49.5) && enemyBullets[bullet].y <= ((playerPos.y + 90) - 49.5)) {
-						Sounds.playerHit.play();
+						if (!Game.muteSFX) {
+							Sounds.playerHit.play();
+						}
 						enemyBullets[bullet].alive = false;
 						Character.ship.player.hp -= enemyBullets[bullet].damage;
 						if (Character.ship.player.hp <= 0) {
@@ -137,14 +139,17 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas", "model/
 		for (i = 0; i < powerUps.length; i++ ) {
 			if (powerUps[i].alive) {
 				if (powerUps[i].x >= player.pos.x && powerUps[i].x <= (player.pos.x +75)) {
-					if (powerUps[i].y >= (player.pos.y - 49.5) && powerUps[i].y <= ((player.pos.y + 99) - 49.5)) {
+					if (powerUps[i].y >= (player.pos.y - 99) && powerUps[i].y <= ((player.pos.y + 99) - 49.5)) {
+						if (!Game.muteSFX) {
+							Sounds.powerUp.play();
+						}
 						if (powerUps[i].type === "health") {
-							player.hp += 5;
+							player.hp += 20;
 							if (player.hp > 100) {
 								player.hp = 100;
 							}
 						} else if (powerUps[i].type === "fireRate") {
-							player.fireRate -= 0.1;
+							player.fireRate -= 0.08;
 						} else if (powerUps[i].type === "damage") {
 							player.damage += 1;
 						}
@@ -163,7 +168,9 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas", "model/
 			if (Character.ship.player.hp > 0 && enemies[ship].alive) {
 				if (enemies[ship].x >= playerPos.x && enemies[ship].x <= (playerPos.x + 75)) {
 					if ((enemies[ship].y >= (playerPos.y - 49.5) && enemies[ship].y <= ((playerPos.y + 99)- 49.5)) || ((playerPos.y -49.5) >= enemies[ship].y && (playerPos.y -49.5) <= (enemies[ship].y + 90))) {
-						Sounds.playerHit.play();
+						if (!Game.muteSFX) {
+							Sounds.playerHit.play();
+						}
 						enemies[ship].alive = false;
 						Character.ship.player.hp -= enemies[ship].hp;
 						if (Character.ship.player.hp <= 0) {
@@ -181,6 +188,13 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas", "model/
 		enemies.length = 0;
 		Game.levelStarted = false;
 		Game.gameOver = true;
+		if (Game.highscore < Character.ship.player.score) {
+			Game.highscore = Character.ship.player.score;
+			LSM.set("highscore", Game.highscore);
+			Game.isHighscore = true;
+		} else {
+			Game.isHighscore = false;
+		}
 		Game.screen = "game_over";
 	};
 	
@@ -242,7 +256,7 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas", "model/
 				x = Canvas.canvasWidth + 100;
 				enemy.y = y;
 				enemy.x = x;
-				enemy.hp += Game.level * 3;
+				enemy.hp += Game.level * 4;
 				enemy.time = time;
 				time += rate;
 				InPlay.enemies.push(enemy);

@@ -1,13 +1,13 @@
-define([], function () {
+define(["model/canvas"], function (Canvas) {
 	var generateStar = function generateStar(old) {
-		star = {
-			y:		Math.floor(Math.random() * canvasHeight) + 1,
+		var star = {
+			y:		Math.floor(Math.random() * Canvas.canvasHeight) + 1,
 			speed:	Math.floor(Math.random() * 4) + 1
 		};
 		if (old) {
-			star.x = canvasWidth;
+			star.x = Canvas.canvasWidth;
 		} else {
-			star.x = Math.floor(Math.random() * canvasWidth) + 1;
+			star.x = Math.floor(Math.random() * Canvas.canvasWidth) + 1;
 		}
 		return star;
 	};
@@ -52,7 +52,7 @@ define([], function () {
 		getScreen:			getScreen,
 		//variables
 		stars:				stars = [],
-		noStars:			100,
+		noStars:			400,
 		screen:				"",
 		timer:				0,
 		level:				1,
@@ -61,7 +61,21 @@ define([], function () {
 		keyboard:			keyboard,
 		mouse:				mouse,
 		fps:				0,
-		lastCalledTime:		0
+		lastCalledTime:		0,
+		//user settings
+		muteMusic:			false,
+		musicCreated:		false,
+		muteSFX:			false,
+		disableHelp:		false,
+		//stats
+		highscore:			0,
+		isHighScore:		false,
+		//enemies killed
+		scout:				0,
+		fighter:			0,
+		interceptor:		0,
+		tank:				0,
+		transport:			0
 	};
 	
 	return Game;

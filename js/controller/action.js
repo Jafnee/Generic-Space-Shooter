@@ -1,5 +1,5 @@
-define(["model/game", "model/canvas", "model/character", "model/images", "model/inPlay", "controller/gameLogic", "model/sounds"],
-function (Game, Canvas, Character, Images, InPlay, GameLogic, Sounds) {
+define(["model/game", "model/canvas", "model/character", "model/images", "model/inPlay", "controller/gameLogic", "model/sounds", "controller/localStorageManager"],
+function (Game, Canvas, Character, Images, InPlay, GameLogic, Sounds, LSM) {
 	var shooting;
 	var getMousePos = function getMousePos(evt) {
 		Game.keyboard.use = false;
@@ -16,8 +16,8 @@ function (Game, Canvas, Character, Images, InPlay, GameLogic, Sounds) {
 	var resize = function resize() {
 		Canvas.contextCanvasWidth = window.innerWidth;
 		Canvas.contextCanvasHeight = window.innerHeight - 70;
-		Canvas.canvasWidth = canvas.width;
-		Canvas.canvasHeight = canvas.height;
+		Canvas.canvasWidth = Canvas.canvas.width;
+		Canvas.canvasHeight = Canvas.canvas.height;
 		canvas = document.getElementById("gameCanvas");
 		context = canvas.getContext("2d");
 		context.canvas.width = window.innerWidth;
@@ -53,17 +53,22 @@ function (Game, Canvas, Character, Images, InPlay, GameLogic, Sounds) {
 			Action.gameOverButtonCheck();
 			}
 			break;
+		case "options":
+			if (down && !kb  ) {
+			Action.optionsButtonCheck();
+			}
+			break;
 		}
 	};
 	
 	var moveShip = function moveShip() {
 		if (Game.keyboard.use) {
 			if (Game.keyboard.up) {
-				if (Character.ship.player.pos.y >= 45.5) {
+				if (Character.ship.player.pos.y >= 10) {
 					Character.ship.player.pos.y -= 10;
 				}
 			} else if (Game.keyboard.down) {
-				if (Character.ship.player.pos.y <= Canvas.canvasHeight - 45.5) {
+				if (Character.ship.player.pos.y <= Canvas.canvasHeight - 14) {
 					Character.ship.player.pos.y += 10;
 				}
 			}
@@ -72,8 +77,8 @@ function (Game, Canvas, Character, Images, InPlay, GameLogic, Sounds) {
 	
 	var gameOverButtonCheck = function gameOverButtonCheck() {
 		var mouseX, mouseY, part1, part2;
-		part1 = canvasWidth  / 4;
-		part2 = canvasHeight / 4;
+		part1 = Canvas.canvasWidth  / 4;
+		part2 = Canvas.canvasHeight / 4;
 		mouseX = Game.mouse.pos.x;
 		mouseY = Game.mouse.pos.y;
 		if (mouseX >= part1 * 1.2 && mouseX <= part1 * 1.2 + part1 * 0.75 && mouseY >= part2 && mouseY <= part2 + part2 * 0.7) {
@@ -86,10 +91,54 @@ function (Game, Canvas, Character, Images, InPlay, GameLogic, Sounds) {
 		}
 	};
 	
+	var optionsButtonCheck = function optionsButtonCheck() {
+		var mouseX, mouseY, part1, part2;
+		part1 = Canvas.canvasWidth  / 4;
+		part2 = Canvas.canvasHeight / 4;
+		mouseX = Game.mouse.pos.x;
+		mouseY = Game.mouse.pos.y;
+		if (mouseX >= part1 * 1.2 && mouseX <= part1 * 1.2 + part1 * 0.75 && mouseY >= part2 && mouseY <= part2 + part2 * 0.7) {
+			if (Game.muteMusic === false) {
+				Game.muteMusic = true;
+				LSM.set("music", "false");
+				Sounds.bgMusic.mute();
+			} else {
+				if (!Game.musicCreated) {
+					Sounds.bgMusic.play();
+					Game.musicCreated = true;
+				}
+				Sounds.bgMusic.unmute();
+				Game.muteMusic = false;
+				LSM.set("music", "true");
+			}
+		}
+		if (mouseX >= part1 * 2.1 && mouseX <= part1 * 2.1 + part1 * 0.75 && mouseY >= part2 && mouseY <= part2 + part2 * 0.7) {
+			if (Game.muteSFX === false) {
+				Game.muteSFX = true;
+				LSM.set("sfx", "false");
+			} else {
+				Game.muteSFX = false;
+				LSM.set("sfx", "true");
+			}
+		}
+		if (mouseX >= part1 * 1.2 && mouseX <= part1 * 1.2 + part1 * 0.75 && mouseY >= part2 * 2 && mouseY <= part2 * 2 + part2 * 0.7) {
+			if (Game.disableHelp === false) {
+				Game.disableHelp = true;
+				LSM.set("help", "false");
+			} else {
+				Game.disableHelp = false;
+				LSM.set("help", "true");
+			}
+		}
+		if (mouseX >= part1 * 2.1 && mouseX <= part1 * 2.1 + part1 * 0.75 && mouseY >= part2 * 2 && mouseY <= part2 * 2 + part2 * 0.7) {
+			Game.screen = "main_menu";
+		}
+	};
+	
 	var mainMenuButtonCheck = function mainMenuButtonCheck() {
 		var mouseX, mouseY, part1, part2;
-		part1 = canvasWidth  / 4;
-		part2 = canvasHeight / 4;
+		part1 = Canvas.canvasWidth  / 4;
+		part2 = Canvas.canvasHeight / 4;
 		mouseX = Game.mouse.pos.x;
 		mouseY = Game.mouse.pos.y;
 		if (mouseX >= part1 * 1.2 && mouseX <= part1 * 1.2 + part1 * 0.75 && mouseY >= part2 && mouseY <= part2 + part2 * 0.7) {
@@ -104,7 +153,7 @@ function (Game, Canvas, Character, Images, InPlay, GameLogic, Sounds) {
 			Game.screen = "stats";
 		}
 		if (mouseX >= part1 * 2.1 && mouseX <= part1 * 2.1 + part1 * 0.75 && mouseY >= part2 * 2 && mouseY <= part2 * 2 + part2 * 0.7) {
-			Game.screen = "about";
+			window.location.assign('about.html');
 		}
 	};
 	
@@ -113,7 +162,9 @@ function (Game, Canvas, Character, Images, InPlay, GameLogic, Sounds) {
         tempX = x;
         tempY = y;
         tempDamage = damage;
-        Sounds.laser2.play();
+		if (!Game.muteSFX) {
+			Sounds.laser2.play();
+		}
         bullet = {
 			x:					tempX,
 			y:					tempY+52,
@@ -128,7 +179,9 @@ function (Game, Canvas, Character, Images, InPlay, GameLogic, Sounds) {
 		var bullet, i, tempDamage, tempType;
 		if (Game.screen === "game") {
 			upgrade = Character.ship.player.upgrade;
-			Sounds.laser1.play();
+			if (!Game.muteSFX) {
+				Sounds.laser1.play();
+			}
 			bullet = {
 				x:		100,
 				y:		Character.ship.player.pos.y,
@@ -137,7 +190,6 @@ function (Game, Canvas, Character, Images, InPlay, GameLogic, Sounds) {
 			tempDamage = Character.ship.player.damage;
 			tempType = Images.blueLaser1;
 			
-			//gun1
 			bullet.x += 60;
 			bullet.y -= 4;
 			bullet.type = tempType;
@@ -170,6 +222,7 @@ function (Game, Canvas, Character, Images, InPlay, GameLogic, Sounds) {
 		enemyShoot:             enemyShoot,		
 		resetVariables:			resetVariables,
 		mainMenuButtonCheck:	mainMenuButtonCheck,
+		optionsButtonCheck:		optionsButtonCheck,
 		gameOverButtonCheck:	gameOverButtonCheck,
 		getMousePos:			getMousePos,
 		resize:					resize
