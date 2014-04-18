@@ -4,7 +4,7 @@ function (Sounds, Images, Canvas, Character, Game, Draw, Listener, Action, Keybi
 
 //end of test
 	LSM.init();
-	LSM.load();	
+	LSM.load();
 	if (!Game.muteMusic) {
 		Game.musicCreated = true;
 		Sounds.bgMusic.play();

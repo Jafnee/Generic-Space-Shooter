@@ -179,8 +179,8 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas", "model/
 		var ship;
 		for (ship = 0; ship < enemies.length; ship++) {
 			if (Character.ship.player.hp > 0 && enemies[ship].alive) {
-				if (enemies[ship].x >= playerPos.x && enemies[ship].x <= (playerPos.x + 75)) {
-					if ((enemies[ship].y >= (playerPos.y - 49.5) && enemies[ship].y <= ((playerPos.y + 99)- 49.5)) || ((playerPos.y -49.5) >= enemies[ship].y && (playerPos.y -49.5) <= (enemies[ship].y + 90))) {
+				if ((enemies[ship].x >= playerPos.x && enemies[ship].x <= (playerPos.x + 75)) || (enemies[ship].x + 70 >= playerPos.x && enemies[ship].x + 70 <= (playerPos.x + 75))) {
+					if ((enemies[ship].y >= (playerPos.y - 99) && enemies[ship].y <= ((playerPos.y + 99)- 49.5)) || ((playerPos.y -49.5) >= enemies[ship].y && (playerPos.y -49.5) <= (enemies[ship].y + 90))) {
 						if (!Game.muteSFX) {
 							Sounds.playerHit.play();
 						}
@@ -189,7 +189,7 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas", "model/
 						if (Character.ship.player.hp <= 0) {
 							GameLogic.gameOver();
 						}
-					}
+					}					
 				}
 			}
 		}
@@ -220,6 +220,21 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas", "model/
 		LSM.set("interceptor", Game.interceptor);
 		LSM.set("tank", Game.tank);
 		LSM.set("transport", Game.transport);
+	};
+	
+	var resetStats = function resetStats() {
+		Game.highscore = 0;
+		Game.scout = 0;
+		Game.fighter = 0;
+		Game.interceptor = 0;
+		Game.tank = 0;
+		Game.transport = 0;
+		LSM.set("highscore",0);
+		LSM.set("scout", 0);
+		LSM.set("fighter", 0);
+		LSM.set("interceptor", 0);
+		LSM.set("tank", 0);
+		LSM.set("transport", 0);
 	};
 	
 	var checkCollisions = function checkCollisions() {
@@ -311,6 +326,7 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas", "model/
 		addScore:					addScore,
 		gameOver:					gameOver,
 		uploadStats:				uploadStats,
+		resetStats:					resetStats,
 		//variables
 		paused:						false,
 		level:						level,

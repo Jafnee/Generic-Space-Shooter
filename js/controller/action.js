@@ -58,6 +58,11 @@ function (Game, Canvas, Character, Images, InPlay, GameLogic, Sounds, LSM) {
 			Action.optionsButtonCheck();
 			}
 			break;
+		case "stats":
+			if (down && !kb  ) {
+			Action.statsButtonCheck();
+			}
+			break;
 		}
 	};
 	
@@ -132,6 +137,20 @@ function (Game, Canvas, Character, Images, InPlay, GameLogic, Sounds, LSM) {
 		}
 		if (mouseX >= part1 * 2.1 && mouseX <= part1 * 2.1 + part1 * 0.75 && mouseY >= part2 * 2 && mouseY <= part2 * 2 + part2 * 0.7) {
 			Game.screen = "main_menu";
+		}
+	};
+	
+	var statsButtonCheck = function statsButtonCheck() {
+		var mouseX, mouseY, part1, part2;
+		part1 = Canvas.canvasWidth  / 4;
+		part2 = Canvas.canvasHeight / 4;
+		mouseX = Game.mouse.pos.x;
+		mouseY = Game.mouse.pos.y;
+		if (mouseX >= part1 * 2.1 && mouseX <= part1 * 2.1 + part1 * 0.75 && mouseY >= part2 && mouseY <= part2 + part2 * 0.7) {
+			Game.screen = "main_menu";
+		}
+		if (mouseX >= part1 * 2.1 && mouseX <= part1 * 2.1 + part1 * 0.75 && mouseY >= part2 * 2 && mouseY <= part2 * 2 + part2 * 0.7) {
+			GameLogic.resetStats();
 		}
 	};
 	
@@ -224,6 +243,7 @@ function (Game, Canvas, Character, Images, InPlay, GameLogic, Sounds, LSM) {
 		mainMenuButtonCheck:	mainMenuButtonCheck,
 		optionsButtonCheck:		optionsButtonCheck,
 		gameOverButtonCheck:	gameOverButtonCheck,
+		statsButtonCheck:		statsButtonCheck,
 		getMousePos:			getMousePos,
 		resize:					resize
 	};

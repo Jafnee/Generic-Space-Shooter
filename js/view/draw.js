@@ -37,10 +37,9 @@ function (Images, Canvas, Game, Character, GameLogic, InPlay, Action) {
 		//Debris/Stars
 		drawStars();
 		//FPS indicator
-		Canvas.context.fillStyle = ("yellow");
-		Canvas.context.font = "40px Verdana";
+		//Canvas.context.fillStyle = ("yellow");		
 		//TEST
-		Canvas.context.fillText(Game.fps + " Mouse : " + Game.mouse.pos.x + " " + Game.mouse.pos.y, Canvas.canvasWidth - 550, 40);
+		//TODO Canvas.context.fillText(Game.fps + " Mouse : " + Game.mouse.pos.x + " " + Game.mouse.pos.y, Canvas.canvasWidth - 550, 40);
 	};
 	var drawMainMenu = function drawMainMenu() {
 		var part1, part2, start, options, stats, about, mouseX, mouseY;
@@ -230,11 +229,13 @@ function (Images, Canvas, Game, Character, GameLogic, InPlay, Action) {
 	
 	var drawScore = function drawScore() {
 		var score = Character.ship.player.score;
-		Canvas.context.fillText("Score: "+score, (Canvas.canvasWidth / 2) - 240, 40);
+		Canvas.context.fillStyle = ("yellow");
+		Canvas.context.fillText("Score: "+score, Canvas.canvasWidth * 0.6, 40);
 	};
 	
 	var drawHP = function drawHP() {
 		var hp = Character.ship.player.hp;
+		Canvas.context.fillStyle = ("yellow");
 		Canvas.context.fillText("Health: "+hp, 0, 40);
 	};
 	
@@ -260,13 +261,15 @@ function (Images, Canvas, Game, Character, GameLogic, InPlay, Action) {
 		Canvas.context.drawImage(mainMenu, part1 * 2.1, part2, part1 * 0.75, part2 * 0.7);
 		if (Game.isHighscore) {
 			//TODO add highscore sound
+			Canvas.context.fillStyle = ("yellow");
 			Canvas.context.fillText("HIGH SCORE", (Canvas.canvasWidth / 2) - 108, Canvas.canvasHeight / 1.7);
 		}
+		Canvas.context.fillStyle = ("yellow");
 		Canvas.context.fillText("Game Over  Level: "+Game.level+"  Score: "+Character.ship.player.score, (Canvas.canvasWidth / 2) - 345, Canvas.canvasHeight / 1.5);
 	};
 	
 	var drawStats = function drawStats() {
-		var part1, part2, start, options, stats, about, mouseX, mouseY;
+		var part1, part2, mainMenu, resetStats, mouseX, mouseY;
 		part1 = Canvas.canvasWidth  / 4;
 		part2 = Canvas.canvasHeight / 4;
 		mouseX = Game.mouse.pos.x;
@@ -276,18 +279,24 @@ function (Images, Canvas, Game, Character, GameLogic, InPlay, Action) {
 		} else {
 			mainMenu = Images.mainMenu0;
 		}
+		if (mouseX >= part1 * 2.1 && mouseX <= part1 * 2.1 + part1 * 0.75 && mouseY >= part2 * 2 && mouseY <= part2 * 2 + part2 * 0.7) {
+			resetStats = Images.resetStats1;
+		} else {
+			resetStats = Images.resetStats0;
+		}
 		Canvas.context.drawImage(Images.blueMetal, part1, 0, part1 * 2, part2 * 3.5);
 		Canvas.context.fillStyle = 'rgba(0,0,0,0.5)';
 		Canvas.context.fillRect(part1,0,part1 * 2,part2 * 3.5);
 		Canvas.context.fillStyle = 'yellow';
 		Canvas.context.drawImage(mainMenu, part1 * 2.1, part2, part1 * 0.75, part2 * 0.7);
-		Canvas.context.fillText("Highscore: " + Game.highscore, 390, 80);
-		Canvas.context.fillText("Enemies killed", 390, 115);
-		Canvas.context.fillText("Scout: " + Game.scout, 390, 160);
-		Canvas.context.fillText("Fighter: " + Game.fighter, 390, 195);
-		Canvas.context.fillText("Interceptor: " + Game.interceptor, 390, 230);
-		Canvas.context.fillText("Tank: " + Game.tank,390,265);
-		Canvas.context.fillText("Transporter: " + Game.transport,390,300);
+		Canvas.context.drawImage(resetStats, part1 * 2.1, part2 * 2, part1 * 0.75, part2 * 0.7);
+		Canvas.context.fillText("Highscore: " + Game.highscore, part1 * 1.1, part2 * 0.5);
+		Canvas.context.fillText("Enemies killed", part1 * 1.1, part2);
+		Canvas.context.fillText("Scout: " + Game.scout, part1 * 1.1, part2 * 1.40);
+		Canvas.context.fillText("Fighter: " + Game.fighter, part1 * 1.1, part2 * 1.70);
+		Canvas.context.fillText("Interceptor: " + Game.interceptor, part1 * 1.1, part2 * 2);
+		Canvas.context.fillText("Tank: " + Game.tank, part1 * 1.1, part2 * 2.30);
+		Canvas.context.fillText("Transporter: " + Game.transport, part1 * 1.1, part2 * 2.60);
 	};
 	
 	var drawGame = function drawGame() {
@@ -295,6 +304,7 @@ function (Images, Canvas, Game, Character, GameLogic, InPlay, Action) {
 			Draw.drawScore();
 			Draw.drawHP();
 		} else {
+			Canvas.context.fillStyle = ("yellow");
 			Canvas.context.fillText("Level: "+Game.level, (Canvas.canvasWidth / 2) - 80, Canvas.canvasHeight / 2);
 		}
 		Draw.drawBullets();

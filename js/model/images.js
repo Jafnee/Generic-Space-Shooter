@@ -23,8 +23,8 @@ define([""], function () {
 		muteSFX1:		"images/menu/button/muteSFX1.png",
 		muteMusic0:		"images/menu/button/muteMusic0.png",
 		muteMusic1:		"images/menu/button/muteMusic1.png",
-		resetStats0:	"images/menu/button/resetStats.png",
-		resetStats:		"images/menu/button/resetStats.png",
+		resetStats0:	"images/menu/button/resetStats0.png",
+		resetStats1:		"images/menu/button/resetStats1.png",
 		//ships
 		//playership
 		blueShip:		"images/character/player/playerShipBlue.png",
