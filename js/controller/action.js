@@ -126,15 +126,6 @@ function (Game, Canvas, Character, Images, InPlay, GameLogic, Sounds, LSM) {
 				LSM.set("sfx", "true");
 			}
 		}
-		if (mouseX >= part1 * 1.2 && mouseX <= part1 * 1.2 + part1 * 0.75 && mouseY >= part2 * 2 && mouseY <= part2 * 2 + part2 * 0.7) {
-			if (Game.disableHelp === false) {
-				Game.disableHelp = true;
-				LSM.set("help", "false");
-			} else {
-				Game.disableHelp = false;
-				LSM.set("help", "true");
-			}
-		}
 		if (mouseX >= part1 * 2.1 && mouseX <= part1 * 2.1 + part1 * 0.75 && mouseY >= part2 * 2 && mouseY <= part2 * 2 + part2 * 0.7) {
 			Game.screen = "main_menu";
 		}
@@ -172,7 +163,8 @@ function (Game, Canvas, Character, Images, InPlay, GameLogic, Sounds, LSM) {
 			Game.screen = "stats";
 		}
 		if (mouseX >= part1 * 2.1 && mouseX <= part1 * 2.1 + part1 * 0.75 && mouseY >= part2 * 2 && mouseY <= part2 * 2 + part2 * 0.7) {
-			window.location.assign('about.html');
+			Game.screen = "paused";
+			Game.paused = true;
 		}
 	};
 	

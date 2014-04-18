@@ -5,6 +5,7 @@ define([""], function () {
 		//menu
 		bigLogo:		"images/logo/logo_large.png",
 		blueMetal:		"images/menu/backdrop/blueMetalSheet.jpg",
+		pauseScreen:	"images/menu/backdrop/helpScreen.png",
 		start0:			"images/menu/button/startGame0.png",
 		start1:			"images/menu/button/startGame1.png",
 		options0:		"images/menu/button/options0.png",
@@ -17,8 +18,8 @@ define([""], function () {
 		restart1:		"images/menu/button/restart1.png",
 		mainMenu0:		"images/menu/button/mainMenu0.png",
 		mainMenu1:		"images/menu/button/mainMenu1.png",
-		disableHelp0:	"images/menu/button/disableHelp0.png",
-		disableHelp1:	"images/menu/button/disableHelp1.png",
+		help0:			"images/menu/button/help0.png",
+		help1:			"images/menu/button/help1.png",
 		muteSFX0:		"images/menu/button/muteSFX0.png",
 		muteSFX1:		"images/menu/button/muteSFX1.png",
 		muteMusic0:		"images/menu/button/muteMusic0.png",

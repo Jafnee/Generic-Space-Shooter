@@ -9,6 +9,10 @@ define(["howler"], function (Howler) {
 		urls:		["./sound/sfx/sfx_laser1.ogg"]
 	});
 	
+	var explosion = new Howl({
+		urls:		["./sound/sfx/explosion.mp3"]
+	});
+	
 	var laser2 = new Howl({
 		urls:		["./sound/sfx/sfx_laser2.ogg"]
 	});
@@ -22,6 +26,7 @@ define(["howler"], function (Howler) {
 	});
 	var Sounds = {
 		powerUp:			powerUp,
+		explosion:			explosion,
 		bgMusic:			bgMusic,
 		playerHit:			playerHit,
 		laser1:				laser1,

@@ -6,16 +6,41 @@ define(["view/draw", "model/game", "controller/gameLogic", "controller/action", 
 		Action.moveShip();
 	};
 	
+	var pauseGame = function pauseGame() {
+		if (Game.pause) {
+			Game.pause = false;
+		} else {
+			Game.pause = true;
+		}
+		if (Game.pause) {
+			GameLogic.timer.stop();
+			if (Game.screen !== "paused") {
+				Game.lastScreen = Game.screen;
+			}
+			Game.screen = "paused";
+		} else {
+			GameLogic.timer.start();
+			Game.screen = Game.lastScreen;
+		}
+	};
+	
 	var changeTextSize = function changeTextSize() {
 		var width = Canvas.canvasWidth;
-		var height = Canvas.canvasHeight;		
-		console.log(Canvas.canvasWidth + "x" + Canvas.canvasHeight);
-		if (width >= 1300 && height >= 500) {
-			Canvas.context.font = "40px Verdana";
-		} else if (width >= 1030 && height >= 429){
-			Canvas.context.font = "30px Verdana";
-		} else {
-			Canvas.context.font = "20px Verdana";
+		var height = Canvas.canvasHeight;
+		if (!Game.screenTooSmall) {
+			if (width >= 1300 && height >= 500) {
+				Canvas.context.font = "40px Verdana";
+				Game.screenTooSmall = false;
+			} else if (width >= 1030 && height >= 429){
+				Canvas.context.font = "30px Verdana";
+				Game.screenTooSmall = false;
+			} else if (width < 835 || height < 444) {
+				GameRunner.pauseGame();
+				Game.screenTooSmall = true;				
+			} else {
+				Canvas.context.font = "20px Verdana";
+				Game.screenTooSmall = false;
+			}
 		}
 	};
 	
@@ -35,6 +60,7 @@ define(["view/draw", "model/game", "controller/gameLogic", "controller/action", 
 	};	
 	
 	var GameRunner = {
+		pauseGame:			pauseGame,
 		changeTextSize:			changeTextSize,
 		gameLoop:				gameLoop,
 		draw:					draw	

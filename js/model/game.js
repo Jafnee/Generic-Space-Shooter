@@ -62,6 +62,9 @@ define(["model/canvas"], function (Canvas) {
 		mouse:				mouse,
 		fps:				0,
 		lastCalledTime:		0,
+		lastScreen:			"main_menu",
+		paused:				false,
+		screenTooSmall:		false,	
 		//user settings
 		muteMusic:			false,
 		musicCreated:		false,

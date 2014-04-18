@@ -115,6 +115,9 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas", "model/
 						enemyBullets[bullet].alive = false;
 						Character.ship.player.hp -= enemyBullets[bullet].damage;
 						if (Character.ship.player.hp <= 0) {
+							if (!Game.muteSFX) {
+								Sounds.explosion.play();
+							}
 							GameLogic.gameOver();						
 						}
 					}
@@ -187,6 +190,9 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas", "model/
 						enemies[ship].alive = false;
 						Character.ship.player.hp -= enemies[ship].hp;
 						if (Character.ship.player.hp <= 0) {
+							if (!Game.muteSFX) {
+								Sounds.explosion.play();
+							}
 							GameLogic.gameOver();
 						}
 					}					

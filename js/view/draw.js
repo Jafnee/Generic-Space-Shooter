@@ -42,7 +42,7 @@ function (Images, Canvas, Game, Character, GameLogic, InPlay, Action) {
 		//TODO Canvas.context.fillText(Game.fps + " Mouse : " + Game.mouse.pos.x + " " + Game.mouse.pos.y, Canvas.canvasWidth - 550, 40);
 	};
 	var drawMainMenu = function drawMainMenu() {
-		var part1, part2, start, options, stats, about, mouseX, mouseY;
+		var part1, part2, start, options, stats, help, mouseX, mouseY;
 		part1 = Canvas.canvasWidth  / 4;
 		part2 = Canvas.canvasHeight / 4;
 		mouseX = Game.mouse.pos.x;
@@ -64,9 +64,9 @@ function (Images, Canvas, Game, Character, GameLogic, InPlay, Action) {
 			stats = Images.stats0;
 		}
 		if (mouseX >= part1 * 2.1 && mouseX <= part1 * 2.1 + part1 * 0.75 && mouseY >= part2 * 2 && mouseY <= part2 * 2 + part2 * 0.7) {
-			about = Images.about1;
+			help = Images.help1;
 		} else {
-			about = Images.about0;
+			help = Images.help0;
 		}
 		//drawing button
 		Canvas.context.drawImage(Images.blueMetal, part1, 0, part1 * 2, part2 * 3.5);
@@ -74,11 +74,11 @@ function (Images, Canvas, Game, Character, GameLogic, InPlay, Action) {
 		Canvas.context.drawImage(start, part1 * 1.2, part2, part1 * 0.75, part2 * 0.7);
 		Canvas.context.drawImage(options, part1 * 2.1, part2, part1 * 0.75, part2 * 0.7);
 		Canvas.context.drawImage(stats, part1 * 1.2, part2 * 2, part1 * 0.75, part2 * 0.7);
-		Canvas.context.drawImage(about, part1 * 2.1, part2 * 2, part1 * 0.75, part2 * 0.7);
+		Canvas.context.drawImage(help, part1 * 2.1, part2 * 2, part1 * 0.75, part2 * 0.7);
 	};
 	
 	var drawOptions = function drawOptions() {
-		var part1, part2, muteMusic, muteSFX, disableHelp, mainMenu;
+		var part1, part2, muteMusic, muteSFX, mainMenu;
 		part1 = Canvas.canvasWidth  / 4;
 		part2 = Canvas.canvasHeight / 4;
 		var mouseX = Game.mouse.pos.x;
@@ -94,11 +94,7 @@ function (Images, Canvas, Game, Character, GameLogic, InPlay, Action) {
 		} else {
 			muteSFX = Images.muteSFX0;
 		}
-		if (Game.disableHelp) {
-			disableHelp = Images.disableHelp1;
-		} else {
-			disableHelp = Images.disableHelp0;
-		}
+		
 		if (mouseX >= part1 * 2.1 && mouseX <= part1 * 2.1 + part1 * 0.75 && mouseY >= part2 * 2 && mouseY <= part2 * 2 + part2 * 0.7) {
 			mainMenu = Images.mainMenu1;
 		} else {
@@ -109,7 +105,6 @@ function (Images, Canvas, Game, Character, GameLogic, InPlay, Action) {
 		Canvas.context.drawImage(Images.bigLogo, part1 * 1.1, part2 * 0.1, part1 * 1.8, part2);
 		Canvas.context.drawImage(muteMusic, part1 * 1.2, part2, part1 * 0.75, part2 * 0.7);
 		Canvas.context.drawImage(muteSFX, part1 * 2.1, part2, part1 * 0.75, part2 * 0.7);
-		Canvas.context.drawImage(disableHelp, part1 * 1.2, part2 * 2, part1 * 0.75, part2 * 0.7);
 		Canvas.context.drawImage(mainMenu, part1 * 2.1, part2 * 2, part1 * 0.75, part2 * 0.7);
 	};
 	
@@ -126,6 +121,9 @@ function (Images, Canvas, Game, Character, GameLogic, InPlay, Action) {
 			break;
 		case "stats":
 			Draw.drawStats();
+			break;
+		case "paused":
+			Draw.drawPause();
 			break;
 		default:
 			break;
@@ -299,6 +297,10 @@ function (Images, Canvas, Game, Character, GameLogic, InPlay, Action) {
 		Canvas.context.fillText("Transporter: " + Game.transport, part1 * 1.1, part2 * 2.60);
 	};
 	
+	var drawPause = function drawPause() {
+		Canvas.context.drawImage(Images.pauseScreen, 0, 0, Canvas.canvasWidth, Canvas.canvasHeight);
+	};
+	
 	var drawGame = function drawGame() {
 		if (Game.levelStarted) {
 			Draw.drawScore();
@@ -311,7 +313,7 @@ function (Images, Canvas, Game, Character, GameLogic, InPlay, Action) {
 		Draw.drawPlayerShip();
 		Draw.drawEnemies();
 		Draw.drawPowerups();
-	};		
+	};
 	
 	var Draw = {
 		//functions
@@ -330,8 +332,8 @@ function (Images, Canvas, Game, Character, GameLogic, InPlay, Action) {
 		drawOptions:			drawOptions,
 		drawMenu:				drawMenu,
 		drawStats:				drawStats,
-		drawGameOver:			drawGameOver
-	
+		drawPause:				drawPause,
+		drawGameOver:			drawGameOver	
 	};	
 	
 	return Draw;
