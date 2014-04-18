@@ -266,7 +266,28 @@ function (Images, Canvas, Game, Character, GameLogic, InPlay, Action) {
 	};
 	
 	var drawStats = function drawStats() {
-		console.log("statsscreen");
+		var part1, part2, start, options, stats, about, mouseX, mouseY;
+		part1 = Canvas.canvasWidth  / 4;
+		part2 = Canvas.canvasHeight / 4;
+		mouseX = Game.mouse.pos.x;
+		mouseY = Game.mouse.pos.y;
+		if (mouseX >= part1 * 2.1 && mouseX <= part1 * 2.1 + part1 * 0.75 && mouseY >= part2 && mouseY <= part2 + part2 * 0.7) {
+			mainMenu = Images.mainMenu1;
+		} else {
+			mainMenu = Images.mainMenu0;
+		}
+		Canvas.context.drawImage(Images.blueMetal, part1, 0, part1 * 2, part2 * 3.5);
+		Canvas.context.fillStyle = 'rgba(0,0,0,0.5)';
+		Canvas.context.fillRect(part1,0,part1 * 2,part2 * 3.5);
+		Canvas.context.fillStyle = 'yellow';
+		Canvas.context.drawImage(mainMenu, part1 * 2.1, part2, part1 * 0.75, part2 * 0.7);
+		Canvas.context.fillText("Highscore: " + Game.highscore, 390, 80);
+		Canvas.context.fillText("Enemies killed", 390, 115);
+		Canvas.context.fillText("Scout: " + Game.scout, 390, 160);
+		Canvas.context.fillText("Fighter: " + Game.fighter, 390, 195);
+		Canvas.context.fillText("Interceptor: " + Game.interceptor, 390, 230);
+		Canvas.context.fillText("Tank: " + Game.tank,390,265);
+		Canvas.context.fillText("Transporter: " + Game.transport,390,300);
 	};
 	
 	var drawGame = function drawGame() {

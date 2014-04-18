@@ -84,6 +84,19 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas", "model/
 									GameLogic.addScore(enemies[ship].score);
 									if (enemies[ship].name === "transport") {
 										GameLogic.dropPickUp(enemies[ship].x, enemies[ship].y);
+										Game.transport += 1;
+									}
+									if (enemies[ship].name === "scout") {
+										Game.scout += 1;
+									}
+									if (enemies[ship].name === "fighter") {
+										Game.fighter += 1;
+									}
+									if (enemies[ship].name === "interceptor") {
+										Game.interceptor += 1;
+									}
+									if (enemies[ship].name === "tank") {
+										Game.tank += 1;
 									}
 								}
 							}
@@ -183,19 +196,30 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas", "model/
 	};
 	
 	var gameOver = function gameOver() {
+		var isHighscore = false;
 		var enemies = InPlay.enemies;
 		GameLogic.timer.stop();
 		enemies.length = 0;
 		Game.levelStarted = false;
 		Game.gameOver = true;
 		if (Game.highscore < Character.ship.player.score) {
+			isHighscore = true;			
+		}
+		GameLogic.uploadStats(isHighscore);
+		Game.screen = "game_over";
+	};
+	
+	var uploadStats = function  uploadStats(isHighscore) {
+		if (isHighscore) {
 			Game.highscore = Character.ship.player.score;
 			LSM.set("highscore", Game.highscore);
 			Game.isHighscore = true;
-		} else {
-			Game.isHighscore = false;
 		}
-		Game.screen = "game_over";
+		LSM.set("scout", Game.scout);
+		LSM.set("fighter", Game.fighter);
+		LSM.set("interceptor", Game.interceptor);
+		LSM.set("tank", Game.tank);
+		LSM.set("transport", Game.transport);
 	};
 	
 	var checkCollisions = function checkCollisions() {
@@ -286,6 +310,7 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas", "model/
 		dropPickUp:					dropPickUp,
 		addScore:					addScore,
 		gameOver:					gameOver,
+		uploadStats:				uploadStats,
 		//variables
 		paused:						false,
 		level:						level,

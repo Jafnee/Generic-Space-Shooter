@@ -11,6 +11,21 @@ define(["model/game"], function (Game) {
 			if (localStorage.getItem("help") === null) {
 				localStorage.setItem("help", "true");
 			}
+			if (localStorage.getItem("scout") === null) {
+				localStorage.setItem("scout", "0");
+			}
+			if (localStorage.getItem("fighter") === null) {
+				localStorage.setItem("fighter", "0");
+			}
+			if (localStorage.getItem("interceptor") === null) {
+				localStorage.setItem("interceptor", "0");
+			}
+			if (localStorage.getItem("tank") === null) {
+				localStorage.setItem("tank", "0");
+			}
+			if (localStorage.getItem("transport") === null) {
+				localStorage.setItem("transport", "0");
+			}
 		}
 		else
 		{
@@ -34,6 +49,22 @@ define(["model/game"], function (Game) {
 		} else {
 			Game.disableHelp = true;
 		}
+		if (localStorage.getItem("help") === "true") {
+			Game.disableHelp = false;
+		} else {
+			Game.disableHelp = true;
+		}
+		if (localStorage.getItem("help") === "true") {
+			Game.disableHelp = false;
+		} else {
+			Game.disableHelp = true;
+		}
+		Game.highscore = parseInt(localStorage.getItem("highscore"));
+		Game.scout = parseInt(localStorage.getItem("scout"));
+		Game.fighter = parseInt(localStorage.getItem("fighter"));
+		Game.interceptor = parseInt(localStorage.getItem("interceptor"));
+		Game.tank = parseInt(localStorage.getItem("tank"));
+		Game.transport = parseInt(localStorage.getItem("transport"));
 	};
 	
 	var set = function set(k, v) {
