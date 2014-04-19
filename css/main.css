@@ -16,6 +16,17 @@ nav {
 	z-index: 2;
 }
 
+ nav#buttons ul{
+list-style-type:none;
+text-align:center;
+}
+
+ nav#buttons li{
+display:inline;
+padding:0 30px;
+font-size:1.1em;
+}
+
 nav#buttons a{
 	display: inline-block;
 	color: white;
@@ -62,10 +73,10 @@ section#gameSection {
 }
 
 #about {
-	cursor: crosshair;
 	position: absolute;
 	top: 70px;
-	left: 0px;
+	left: 5%;
+	font-family: Futura, "Trebuchet MS", Arial, sans-serif;
 }
 
 #gameCanvas {
