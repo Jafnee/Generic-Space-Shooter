@@ -52,7 +52,7 @@ define(["model/canvas"], function (Canvas) {
 		getScreen:			getScreen,
 		//variables
 		stars:				stars = [],
-		noStars:			400,
+		noStars:			300,
 		screen:				"",
 		timer:				0,
 		level:				1,

@@ -37,7 +37,7 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas", "model/
 		get:			getTimer
 	};
 	
-	var startLevel = function startLevel() {
+	var startLevel = function startLevel() {		
 		setTimeout(function(){
 			Game.levelStarted = true;
 			GameLogic.timer.start();

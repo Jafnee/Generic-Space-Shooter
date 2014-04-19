@@ -21,6 +21,14 @@ define(["howler"], function (Howler) {
 		urls:		["./sound/sfx/sfx_shieldDown.ogg"]
 	});
 	
+	var pause = new Howl({
+		urls:		["./sound/sfx/pause.wav"]
+	});
+	
+	var select = new Howl({
+		urls:		["./sound/sfx/select.wav"]
+	});
+	
 	var powerUp = new Howl({
 		urls:		["./sound/sfx/sfx_zap.ogg"]
 	});
@@ -29,6 +37,8 @@ define(["howler"], function (Howler) {
 		explosion:			explosion,
 		bgMusic:			bgMusic,
 		playerHit:			playerHit,
+		pause:				pause,
+		select:				select,
 		laser1:				laser1,
 		laser2:				laser2
 	};

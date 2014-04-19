@@ -87,11 +87,17 @@ function (Game, Canvas, Character, Images, InPlay, GameLogic, Sounds, LSM) {
 		mouseX = Game.mouse.pos.x;
 		mouseY = Game.mouse.pos.y;
 		if (mouseX >= part1 * 1.2 && mouseX <= part1 * 1.2 + part1 * 0.75 && mouseY >= part2 && mouseY <= part2 + part2 * 0.7) {
+			if (!Game.muteSFX) {
+				Sounds.select.play();
+			}
 			Action.resetVariables();
 			Game.screen = "game";
 			GameLogic.level.start();
 		}
 		if (mouseX >= part1 * 2.1 && mouseX <= part1 * 2.1 + part1 * 0.75 && mouseY >= part2 && mouseY <= part2 + part2 * 0.7) {
+			if (!Game.muteSFX) {
+				Sounds.select.play();
+			}
 			Game.screen = "main_menu";
 		}
 	};
@@ -103,6 +109,9 @@ function (Game, Canvas, Character, Images, InPlay, GameLogic, Sounds, LSM) {
 		mouseX = Game.mouse.pos.x;
 		mouseY = Game.mouse.pos.y;
 		if (mouseX >= part1 * 1.2 && mouseX <= part1 * 1.2 + part1 * 0.75 && mouseY >= part2 && mouseY <= part2 + part2 * 0.7) {
+			if (!Game.muteSFX) {
+				Sounds.select.play();
+			}
 			if (Game.muteMusic === false) {
 				Game.muteMusic = true;
 				LSM.set("music", "false");
@@ -118,6 +127,9 @@ function (Game, Canvas, Character, Images, InPlay, GameLogic, Sounds, LSM) {
 			}
 		}
 		if (mouseX >= part1 * 2.1 && mouseX <= part1 * 2.1 + part1 * 0.75 && mouseY >= part2 && mouseY <= part2 + part2 * 0.7) {
+			if (!Game.muteSFX) {
+				Sounds.select.play();
+			}
 			if (Game.muteSFX === false) {
 				Game.muteSFX = true;
 				LSM.set("sfx", "false");
@@ -127,6 +139,9 @@ function (Game, Canvas, Character, Images, InPlay, GameLogic, Sounds, LSM) {
 			}
 		}
 		if (mouseX >= part1 * 2.1 && mouseX <= part1 * 2.1 + part1 * 0.75 && mouseY >= part2 * 2 && mouseY <= part2 * 2 + part2 * 0.7) {
+			if (!Game.muteSFX) {
+				Sounds.select.play();
+			}
 			Game.screen = "main_menu";
 		}
 	};
@@ -138,9 +153,15 @@ function (Game, Canvas, Character, Images, InPlay, GameLogic, Sounds, LSM) {
 		mouseX = Game.mouse.pos.x;
 		mouseY = Game.mouse.pos.y;
 		if (mouseX >= part1 * 2.1 && mouseX <= part1 * 2.1 + part1 * 0.75 && mouseY >= part2 && mouseY <= part2 + part2 * 0.7) {
+			if (!Game.muteSFX) {
+				Sounds.select.play();
+			}
 			Game.screen = "main_menu";
 		}
 		if (mouseX >= part1 * 2.1 && mouseX <= part1 * 2.1 + part1 * 0.75 && mouseY >= part2 * 2 && mouseY <= part2 * 2 + part2 * 0.7) {
+			if (!Game.muteSFX) {
+				Sounds.select.play();
+			}
 			GameLogic.resetStats();
 		}
 	};
@@ -152,17 +173,29 @@ function (Game, Canvas, Character, Images, InPlay, GameLogic, Sounds, LSM) {
 		mouseX = Game.mouse.pos.x;
 		mouseY = Game.mouse.pos.y;
 		if (mouseX >= part1 * 1.2 && mouseX <= part1 * 1.2 + part1 * 0.75 && mouseY >= part2 && mouseY <= part2 + part2 * 0.7) {
+			if (!Game.muteSFX) {
+				Sounds.select.play();
+			}
 			Game.screen = "game";
 			Action.resetVariables();
 			GameLogic.level.start();
 		}
 		if (mouseX >= part1 * 2.1 && mouseX <= part1 * 2.1 + part1 * 0.75 && mouseY >= part2 && mouseY <= part2 + part2 * 0.7) {
+			if (!Game.muteSFX) {
+				Sounds.select.play();
+			}
 			Game.screen = "options";
 		}
 		if (mouseX >= part1 * 1.2 && mouseX <= part1 * 1.2 + part1 * 0.75 && mouseY >= part2 * 2 && mouseY <= part2 * 2 + part2 * 0.7) {
+			if (!Game.muteSFX) {
+				Sounds.select.play();
+			}
 			Game.screen = "stats";
 		}
 		if (mouseX >= part1 * 2.1 && mouseX <= part1 * 2.1 + part1 * 0.75 && mouseY >= part2 * 2 && mouseY <= part2 * 2 + part2 * 0.7) {
+			if (!Game.muteSFX) {
+				Sounds.select.play();
+			}
 			Game.screen = "paused";
 			Game.paused = true;
 		}

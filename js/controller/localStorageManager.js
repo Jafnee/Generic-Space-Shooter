@@ -8,9 +8,6 @@ define(["model/game"], function (Game) {
 			if (localStorage.getItem("sfx") === null) {
 				localStorage.setItem("sfx", "true");
 			}
-			if (localStorage.getItem("help") === null) {
-				localStorage.setItem("help", "true");
-			}
 			if (localStorage.getItem("scout") === null) {
 				localStorage.setItem("scout", "0");
 			}
@@ -25,6 +22,9 @@ define(["model/game"], function (Game) {
 			}
 			if (localStorage.getItem("transport") === null) {
 				localStorage.setItem("transport", "0");
+			}
+			if (localStorage.getItem("highscore") === null) {
+				localStorage.setItem("highscore", "0");
 			}
 		}
 		else
@@ -43,21 +43,6 @@ define(["model/game"], function (Game) {
 			Game.muteSFX = false;
 		} else {
 			Game.muteSFX = true;
-		}
-		if (localStorage.getItem("help") === "true") {
-			Game.disableHelp = false;
-		} else {
-			Game.disableHelp = true;
-		}
-		if (localStorage.getItem("help") === "true") {
-			Game.disableHelp = false;
-		} else {
-			Game.disableHelp = true;
-		}
-		if (localStorage.getItem("help") === "true") {
-			Game.disableHelp = false;
-		} else {
-			Game.disableHelp = true;
 		}
 		Game.highscore = parseInt(localStorage.getItem("highscore"));
 		Game.scout = parseInt(localStorage.getItem("scout"));
