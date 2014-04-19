@@ -131,23 +131,27 @@ function (Images, Canvas, Game, Character, GameLogic, InPlay, Action) {
 	};
 	
 	var drawPlayerShip = function drawPlayerShip() {
-		var sprite;
+		var sprite, x, y, width, height;
+		sprite = Images.playerShip;
+		width = 75;
+		height = 99;
+		y = 0;
 		if (Character.ship.player.hp > 0) {
 			Canvas.context.drawImage(Images.gun0, Character.ship.player.pos.x + 55, Character.ship.player.pos.y - 8.5);
 			if (Character.ship.player.frame === 0 ) {
-				sprite = Images.blueShip;
+				x = 0;
 			} else if (Character.ship.player.frame === 1 ) {
-				sprite = Images.blueShip2;
+				x = 75;
 			} else if (Character.ship.player.frame === 2 ) {
-				sprite = Images.blueShip3;
+				x = 150;
 			} else if (Character.ship.player.frame === 3 ) {
-				sprite = Images.blueShip4;
+				x = 225;
 			} 
 			Character.ship.player.frame += 1;
 			if (Character.ship.player.frame === 4) {
 				Character.ship.player.frame = 0;
 			}
-			Canvas.context.drawImage(sprite, Character.ship.player.pos.x, Character.ship.player.pos.y - 49.5);
+			Canvas.context.drawImage(sprite, x, y, width, height, Character.ship.player.pos.x, Character.ship.player.pos.y - 49.5, width, height);
 		}
 	};
 	

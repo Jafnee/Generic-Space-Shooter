@@ -32,6 +32,7 @@ define([""], function () {
 		blueShip2:		"images/character/player/playerShipBlue2.png",
 		blueShip3:		"images/character/player/playerShipBlue3.png",
 		blueShip4:		"images/character/player/playerShipBlue4.png",
+		playerShip:		"images/character/player/playerShip.png",
 		//enemy ships
 		scout:			"images/character/enemy/enemyBlack1.png",
 		fighter:		"images/character/enemy/enemyBlack2.png",

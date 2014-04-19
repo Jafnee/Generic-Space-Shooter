@@ -5,6 +5,7 @@ body {
 
 header {
 	text-align: center;
+	text-decoration: underline;
 }
 
 header#top{
@@ -83,6 +84,7 @@ section#gameSection {
 @font-face {
     font-family: 'zephyrean_brknormal';
     src: url('zephyrea-webfont.eot');
+	/*Ensures increased browser compatibility*/
     src: url('zephyrea-webfont.eot?#iefix') format('embedded-opentype'),
          url('zephyrea-webfont.woff') format('woff'),
          url('zephyrea-webfont.ttf') format('truetype'),
@@ -94,13 +96,15 @@ section#gameSection {
 article#about {
 	position: absolute;
 	top: 70px;
-	left: 0px;
+	left: 4%;
+	width: 90%;
 	color: yellow;	
-	font-size:	150%;
+	font-size:	130%;
 	font-family: zephyrean_brknormal, Futura, "Trebuchet MS", Arial, sans-serif;
 }
 
 article#about ul {
+	font-size:	85%;
 	font-family: Futura, "Trebuchet MS", Arial, sans-serif;
 }
 
@@ -109,7 +113,7 @@ article#about p {
 }
 
 article#about h2 {
-	text-shadow: 2px 2px 3px #000000;
+	text-shadow: 2px 2px 3px #333333;
 }
 
 section.credits {

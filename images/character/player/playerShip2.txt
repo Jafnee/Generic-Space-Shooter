@@ -1,0 +1,4 @@
+playerShipBlue = 0 0 75 99
+playerShipBlue2 = 75 0 75 99
+playerShipBlue3 = 150 0 75 99
+playerShipBlue4 = 225 0 75 99
