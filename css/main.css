@@ -1,5 +1,13 @@
 @charset 'UTF-8';
-header{
+body {
+	background-image: url("../images/menu/backdrop/stars.png");
+}
+
+header {
+	text-align: center;
+}
+
+header#top{
 	background-color: #000000;
 	position:absolute;
 	width: 100%;
@@ -72,16 +80,50 @@ section#gameSection {
   overflow: hidden;
 }
 
-#about {
+@font-face {
+    font-family: 'zephyrean_brknormal';
+    src: url('zephyrea-webfont.eot');
+    src: url('zephyrea-webfont.eot?#iefix') format('embedded-opentype'),
+         url('zephyrea-webfont.woff') format('woff'),
+         url('zephyrea-webfont.ttf') format('truetype'),
+         url('zephyrea-webfont.svg#zephyrean_brknormal') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+article#about {
 	position: absolute;
 	top: 70px;
-	left: 5%;
+	left: 0px;
+	color: yellow;	
+	font-size:	150%;
+	font-family: zephyrean_brknormal, Futura, "Trebuchet MS", Arial, sans-serif;
+}
+
+article#about ul {
 	font-family: Futura, "Trebuchet MS", Arial, sans-serif;
+}
+
+article#about p {
+	font-family: Futura, "Trebuchet MS", Arial, sans-serif;
+}
+
+article#about h2 {
+	text-shadow: 2px 2px 3px #000000;
+}
+
+section.credits {
+	position: relative;
+	left: 5%;
+}
+
+section.credits a {
+	color:#FF8000;
 }
 
 #gameCanvas {
 	cursor: crosshair;
 	position: absolute;
-	top: 70px;
+	top: 69px;
 	left: 0px;
 }
