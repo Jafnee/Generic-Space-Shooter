@@ -29,12 +29,22 @@ define(["howler"], function (Howler) {
 		urls:		["./sound/sfx/select.wav"]
 	});
 	
+	var death = new Howl({
+		urls:		["./sound/sfx/death.wav"]
+	});
+	
+	var levelUp = new Howl({
+		urls:		["./sound/sfx/levelUp.wav"]
+	});
+	
 	var powerUp = new Howl({
 		urls:		["./sound/sfx/sfx_zap.ogg"]
 	});
 	var Sounds = {
+		levelUp:			levelUp,
 		powerUp:			powerUp,
 		explosion:			explosion,
+		death:				death,
 		bgMusic:			bgMusic,
 		playerHit:			playerHit,
 		pause:				pause,

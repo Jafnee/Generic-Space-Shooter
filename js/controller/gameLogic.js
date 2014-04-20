@@ -37,8 +37,11 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas", "model/
 		get:			getTimer
 	};
 	
-	var startLevel = function startLevel() {		
+	var startLevel = function startLevel() {
 		setTimeout(function(){
+			if (!Game.muteSFX) {
+				Sounds.levelUp.play();
+			}
 			Game.levelStarted = true;
 			GameLogic.timer.start();
 			GameLogic.addEnemies();
@@ -80,6 +83,9 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas", "model/
 								playerBullets[bullet].alive = false;
 								enemies[ship].hp -= playerBullets[bullet].damage;
 								if (enemies[ship].hp <= 0) {
+									if (!Game.muteSFX) {
+										Sounds.death.play();
+									}
 									enemies[ship].alive = false;
 									GameLogic.addScore(enemies[ship].score);
 									if (enemies[ship].name === "transport") {
@@ -186,6 +192,7 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas", "model/
 					if ((enemies[ship].y >= (playerPos.y - 99) && enemies[ship].y <= ((playerPos.y + 99)- 49.5)) || ((playerPos.y -49.5) >= enemies[ship].y && (playerPos.y -49.5) <= (enemies[ship].y + 90))) {
 						if (!Game.muteSFX) {
 							Sounds.playerHit.play();
+							Sounds.death.play();
 						}
 						enemies[ship].alive = false;
 						Character.ship.player.hp -= enemies[ship].hp;
@@ -209,7 +216,8 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas", "model/
 		Game.levelStarted = false;
 		Game.gameOver = true;
 		if (Game.highscore < Character.ship.player.score) {
-			isHighscore = true;			
+			isHighscore = true;
+			Game.highscore = Character.ship.player.score;
 		}
 		GameLogic.uploadStats(isHighscore);
 		Game.screen = "game_over";
@@ -217,9 +225,10 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas", "model/
 	
 	var uploadStats = function  uploadStats(isHighscore) {
 		if (isHighscore) {
-			Game.highscore = Character.ship.player.score;
 			LSM.set("highscore", Game.highscore);
 			Game.isHighscore = true;
+		} else {
+			Game.isHighscore = false;
 		}
 		LSM.set("scout", Game.scout);
 		LSM.set("fighter", Game.fighter);
