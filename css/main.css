@@ -1,5 +1,5 @@
 @charset 'UTF-8';
-body {
+body.info {
 	background-image: url("../images/menu/backdrop/stars.png");
 }
 
