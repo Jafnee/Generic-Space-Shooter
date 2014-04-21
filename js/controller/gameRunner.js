@@ -1,6 +1,6 @@
 define(["view/draw", "model/game", "controller/gameLogic", "controller/action", "model/canvas", "model/sounds"], function (Draw, Game, GameLogic, Action, Canvas, Sounds) {
     var gameLoop = function gameLoop() {
-        if (window.requestAnimationFrame == null) {
+        if (window.requestAnimationFrame === null) {
             Canvas.context.font = "20px Verdana";
             Canvas.context.fillText("Your browser does not support requestAnimationFrame", 100, 100);
             Canvas.context.fillText("Please upgrade your browser", 100, 300);
@@ -60,14 +60,11 @@ define(["view/draw", "model/game", "controller/gameLogic", "controller/action", 
     var draw = function draw() {
         Draw.drawBackground();
         //Checks which screen user is on
-        switch (Game.screen) {
-        case "game":
+        if (Game.screen === "game") {
             Draw.drawGame();
             GameLogic.checkCollisions();
-            break;
-        default:
+		} else {
             Draw.drawMenu();
-            break;
         }
     };
 

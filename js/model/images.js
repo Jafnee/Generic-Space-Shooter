@@ -26,7 +26,7 @@ define([""], function () {
         muteMusic1: "images/menu/button/muteMusic1.png",
         resetStats0: "images/menu/button/resetStats0.png",
         resetStats1: "images/menu/button/resetStats1.png",
-        //ships
+        //SHIPS
         //playership
         playerShip: "images/character/player/playerShip.png",
         //enemy ships
@@ -44,6 +44,7 @@ define([""], function () {
         pickUpHealth: "images/misc/pickup/pickup_health.png",
         pickUpDamage: "images/misc/pickup/pickup_damage.png",
         pickUpFireRate: "images/misc/pickup/pickup_firerate.png"
+		//misc
     };
     for (src in sources) {
         Images[src] = new Image();
