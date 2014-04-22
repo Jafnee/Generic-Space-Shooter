@@ -171,7 +171,8 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas", "model/
                         if (powerUps[i].type === "health") {
                             player.hp += 20;
                         } else if (powerUps[i].type === "fireRate") {
-                            player.fireRate -= 0.08;
+                            player.fireRate -= 0.09;
+							GameLogic.fRate = true;
                         } else if (powerUps[i].type === "damage") {
                             player.damage += 1;
                         }
@@ -349,6 +350,7 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas", "model/
         resetStats: resetStats,
         //variables
         paused: false,
+		fRate: false,
         level: level,
         timer: timer
     };

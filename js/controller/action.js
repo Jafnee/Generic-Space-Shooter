@@ -9,7 +9,7 @@ define(["model/game", "model/canvas", "model/character", "model/images", "model/
             Game.mouse.pos.y = evt.clientY - rect.top;
             Character.ship.player.pos.y = Game.mouse.pos.y;
             if (Game.mouse.pos.x <= 0 || Game.mouse.pos.x >= Canvas.canvasWidth || Game.mouse.pos.y <= 0 || Game.mouse.pos.y >= Canvas.canvasHeight) {
-                clearInterval(shooting);
+                clearInterval(Action.shooting);
             }
         };
 
@@ -36,7 +36,7 @@ define(["model/game", "model/canvas", "model/character", "model/images", "model/
                 }
                 break;
             case "game":
-                if (down && !Game.keyboard.sbFlag) {
+                if (down && !Game.keyboard.sbFlag) {					
                     Game.keyboard.sbFlag = true;
 					if (!Character.ship.player.hasShot) {
 						Action.playerShoot();
@@ -45,14 +45,22 @@ define(["model/game", "model/canvas", "model/character", "model/images", "model/
 							Character.ship.player.hasShot = false;
 						}, Character.ship.player.fireRate * 100);
 					}
-                    shooting = setInterval(function () {
+                    Action.shooting = setInterval(function () {
                         if (Character.ship.player.hp > 0) {
+							if (GameLogic.fRate) {
+								GameLogic.fRate = false;
+								clearInterval(Action.shooting);
+								Action.shooting = setInterval(function () {
+									if (Character.ship.player.hp > 0) {
+										Action.playerShoot();
+									}
+								}, Character.ship.player.fireRate * 100);
+							}
                             Action.playerShoot();
                         }
                     }, Character.ship.player.fireRate * 100);
-					console.log(shooting);
                 } else if (!down) {
-                    clearInterval(shooting);
+                    clearInterval(Action.shooting);
                     Game.keyboard.sbFlag = false;
                 }
                 break;
@@ -269,6 +277,7 @@ define(["model/game", "model/canvas", "model/character", "model/images", "model/
 
         var Action = {
             moveShip: moveShip,
+			shooting: shooting,
             mouseClicked: mouseClicked,
             playerShoot: playerShoot,
             enemyShoot: enemyShoot,
