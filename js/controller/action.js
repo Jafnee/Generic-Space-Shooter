@@ -255,8 +255,8 @@ define(["model/game", "model/canvas", "model/character", "model/images", "model/
             Character.ship.player.score = 0;
             Character.ship.player.hp = 100;
             Character.ship.player.guns = 1;
-            Character.ship.player.upgrade = 1;
-            Character.ship.player.lives = 3;
+            Character.ship.player.damage = 10;
+			Character.ship.player.fireRate = 3;
         };
 
         var Action = {

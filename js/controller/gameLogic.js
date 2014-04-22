@@ -170,9 +170,6 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas", "model/
                         }
                         if (powerUps[i].type === "health") {
                             player.hp += 20;
-                            if (player.hp > 100) {
-                                player.hp = 100;
-                            }
                         } else if (powerUps[i].type === "fireRate") {
                             player.fireRate -= 0.08;
                         } else if (powerUps[i].type === "damage") {
@@ -289,7 +286,7 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas", "model/
         } else {
             lvlSelector = 5;
         }
-        if (Game.level < 3) {
+        if (Game.level < 6) {
             rate = 1;
         } else {
             rate = 0.5;
@@ -303,7 +300,11 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas", "model/
             } else if (selector === 2) {
                 enemy = GameLogic.clone(Character.ship.enemy.fighter);
             } else if (selector === 3) {
-                enemy = GameLogic.clone(Character.ship.enemy.transport);
+				if (Game.level % 3 === 0) {
+					enemy = GameLogic.clone(Character.ship.enemy.transport);
+				} else {
+					enemy = GameLogic.clone(Character.ship.enemy.scout);
+				}
             } else if (selector === 4) {
                 enemy = GameLogic.clone(Character.ship.enemy.tank);
             } else if (selector === 5) {
@@ -314,7 +315,7 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas", "model/
                 x = Canvas.canvasWidth + 100;
                 enemy.y = y;
                 enemy.x = x;
-                enemy.hp += Game.level * 3;
+				enemy.hp += Game.level * (Math.floor(Game.level / 2) - 1);
                 enemy.time = time;
                 time += rate;
                 InPlay.enemies.push(enemy);

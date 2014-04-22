@@ -170,14 +170,16 @@ define(["model/images", "model/canvas", "model/game", "model/character", "contro
                         } else {
                             enemies[i].x -= enemies[i].speed;
                             if (enemies[i].name === "interceptor") {
-                                if (enemies[i].y < Character.ship.player.pos.y - 49.5) {
-                                    enemies[i].y += 2;
-                                } else if (enemies[i].y > Character.ship.player.pos.y - 49.5) {
-                                    enemies[i].y -= 2;
-                                }
+								if (enemies[i].x > Canvas.canvasWidth/2) {
+									if (enemies[i].y + 2 < Character.ship.player.pos.y - 49.5) {
+										enemies[i].y += 2;
+									} else if (enemies[i].y - 2 > Character.ship.player.pos.y - 49.5) {
+										enemies[i].y -= 2;
+									}
+								}
                             }
                             if (enemies[i].fireRate > 0) {
-                                if (relativeTime % enemies[i].fireRate <= 0.02) {
+                                if ((relativeTime-enemies[i].time) % enemies[i].fireRate <= 0.02) {
                                     enemies[i].hasShot = true;
                                     Action.enemyShoot(enemies[i].x, enemies[i].y, enemies[i].damage);
                                 }
