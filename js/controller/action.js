@@ -38,11 +38,19 @@ define(["model/game", "model/canvas", "model/character", "model/images", "model/
             case "game":
                 if (down && !Game.keyboard.sbFlag) {
                     Game.keyboard.sbFlag = true;
+					if (!Character.ship.player.hasShot) {
+						Action.playerShoot();
+						Character.ship.player.hasShot = true;
+						window.setTimeout(function() {
+							Character.ship.player.hasShot = false;
+						}, Character.ship.player.fireRate * 100);
+					}
                     shooting = setInterval(function () {
                         if (Character.ship.player.hp > 0) {
                             Action.playerShoot();
                         }
                     }, Character.ship.player.fireRate * 100);
+					console.log(shooting);
                 } else if (!down) {
                     clearInterval(shooting);
                     Game.keyboard.sbFlag = false;

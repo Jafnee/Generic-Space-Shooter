@@ -9,6 +9,7 @@ define(["model/images"], function (Images) {
         damage: 10,
         guns: 1,
         fireRate: 3,
+		hasShot: false,
         hp: 100,
         lives: 3,
         pos: pos = {
