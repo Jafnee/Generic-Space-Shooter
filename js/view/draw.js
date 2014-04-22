@@ -115,7 +115,8 @@ define(["model/images", "model/canvas", "model/game", "model/character", "contro
         };
 
         var drawPlayerShip = function drawPlayerShip() {
-            var sprite, sx, sy, width, height, x, y;
+            var sprite, sx, sy, width, height, x, y, frame;
+			frame = Character.ship.player.frame;
             x = Character.ship.player.pos.x;
             y = Character.ship.player.pos.y;
             sprite = Character.ship.player.sprite;
@@ -124,21 +125,45 @@ define(["model/images", "model/canvas", "model/game", "model/character", "contro
             sy = 0;
             if (Character.ship.player.hp > 0) {
                 Canvas.context.drawImage(Images.gun0, x + 55, y - 8.5);
-                if (Character.ship.player.frame === 0) {
+                if (frame === 0) {
                     sx = 0;
-                } else if (Character.ship.player.frame === 1) {
+                } else if (frame === 1) {
                     sx = 75;
-                } else if (Character.ship.player.frame === 2) {
+                } else if (frame === 2) {
                     sx = 150;
-                } else if (Character.ship.player.frame === 3) {
+                } else if (frame === 3) {
                     sx = 225;
                 }
                 Character.ship.player.frame += 1;
-                if (Character.ship.player.frame === 4) {
+                if (Character.ship.player.frame >= 4) {
                     Character.ship.player.frame = 0;
                 }
-                Canvas.context.drawImage(sprite, sx, sy, width, height, x, y - (height / 2), width, height);
-            }
+            } else {
+				width = 192;
+				height = 192;
+				sprite = Images.explosion;
+				if (frame === 0) {
+                    sx = 0;
+                } else if (frame <= 1) {
+                    sx = 192;
+                } else if (frame <= 2) {
+                    sx = 384;
+                } else if (frame <= 3) {
+                    sx = 576;
+                } else if (frame <= 4) {
+                    sx = 768;
+                } else if (frame <= 5) {
+                    sx = 960;
+                } else if (frame <= 6) {
+                    sx = 0;
+					sy = 192;
+                } else if (frame <= 7) {
+                    sx = 192;
+					sy = 192;
+                }
+                Character.ship.player.frame += 0.2;
+			}
+			Canvas.context.drawImage(sprite, sx, sy, width, height, x, y - (height / 2), width, height);
         };
 
         var drawPowerups = function drawPowerups() {
@@ -244,6 +269,7 @@ define(["model/images", "model/canvas", "model/game", "model/character", "contro
             } else {
                 mainMenu = Images.mainMenu0;
             }
+			Draw.drawPlayerShip();
             Canvas.context.drawImage(Images.blueMetal, part1, 0, part1 * 2, part2 * 2);
             Canvas.context.drawImage(Images.bigLogo, part1 * 1.1, part2 * 0.1, part1 * 1.8, part2);
             Canvas.context.drawImage(restart, part1 * 1.2, part2, part1 * 0.75, part2 * 0.7);

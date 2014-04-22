@@ -43,8 +43,9 @@ define([""], function () {
         //pickups
         pickUpHealth: "images/misc/pickup/pickup_health.png",
         pickUpDamage: "images/misc/pickup/pickup_damage.png",
-        pickUpFireRate: "images/misc/pickup/pickup_firerate.png"
+        pickUpFireRate: "images/misc/pickup/pickup_firerate.png",
 		//misc
+		explosion: "images/misc/explosion/explosion.png"
     };
     for (src in sources) {
         Images[src] = new Image();
