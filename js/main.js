@@ -4,7 +4,7 @@ define(["model/sounds", "model/images", "model/canvas", "model/character", "mode
         //end of test
         LSM.init();
         LSM.load();
-        if (!Game.muteMusic) {
+        if (!Game.muteMusic && window.requestAnimationFrame !== undefined) {
             Game.musicCreated = true;
             Sounds.bgMusic.play();
         }

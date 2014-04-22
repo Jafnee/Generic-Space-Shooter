@@ -1,6 +1,16 @@
-@charset 'UTF-8';
+@charset "UTF-8";
+/*This CSS file does not validate to W3 CSS3 due to vendor prefixes required to create gradients in CSS3,
+this causes parsing errors in the validator. The correct syntax has been used according to each browser
+vendor.*/
 body.info {
 	background-image: url("../images/menu/backdrop/stars.png");
+}
+
+h1.error {
+	position:absolute;
+	top: 50%;
+	left: 100px;
+	z-index: -1;
 }
 
 header {
@@ -98,7 +108,7 @@ article#about {
 	top: 70px;
 	left: 4%;
 	width: 90%;
-	color: yellow;	
+	color: yellow;
 	font-size:	130%;
 	font-family: zephyrean_brknormal, Futura, "Trebuchet MS", Arial, sans-serif;
 }

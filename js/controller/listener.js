@@ -6,5 +6,7 @@ define(["controller/action", "model/canvas"], function (Action, Canvas) {
     Canvas.canvas.addEventListener("mouseup", function () {
         Action.mouseClicked(false);
     }, false);
-    window.addEventListener("resize", Action.resize, false);
+	if (window.requestAnimationFrame !== undefined) {
+		window.addEventListener("resize", Action.resize, false);
+	}
 });

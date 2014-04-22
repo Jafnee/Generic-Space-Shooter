@@ -1,9 +1,12 @@
 define(["view/draw", "model/game", "controller/gameLogic", "controller/action", "model/canvas", "model/sounds"], function (Draw, Game, GameLogic, Action, Canvas, Sounds) {
     var gameLoop = function gameLoop() {
-        if (window.requestAnimationFrame === null) {
+        if (window.requestAnimationFrame === undefined) {
+			Canvas.context.fillStyle = "#FFFFFF";
+            Canvas.context.fillRect(0, 0, Canvas.canvas.width, Canvas.canvas.height);
+			Canvas.context.fillStyle = "#000000";
             Canvas.context.font = "20px Verdana";
-            Canvas.context.fillText("Your browser does not support requestAnimationFrame", 100, 100);
-            Canvas.context.fillText("Please upgrade your browser", 100, 300);
+            Canvas.context.fillText("Your browser does not support requestAnimationFrame", 100, Canvas.canvasHeight*0.25);
+            Canvas.context.fillText("Please upgrade your browser", 100, Canvas.canvasHeight*0.75);
         } else {
             requestAnimationFrame(GameRunner.gameLoop);
             GameRunner.changeTextSize();
