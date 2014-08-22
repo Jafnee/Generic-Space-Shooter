@@ -1,6 +1,6 @@
 define(["howler"], function (Howler) {
     var bgMusic = new Howl({
-        urls: ["./sound/music/DST-DasElectron.ogg", "./sound/music/DST-DasElectron.mp3"],
+        urls: ["./sound/music/DST-DasElectron.mp3"],
         buffer: true,
         loop: true
     });
@@ -26,19 +26,19 @@ define(["howler"], function (Howler) {
     });
 
     var select = new Howl({
-        urls: ["./sound/sfx/select.ogg", "./sound/sfx/select.mp3", "./sound/sfx/select.wav"]
+        urls: ["./sound/sfx/select.mp3", "./sound/sfx/select.wav"]
     });
 
     var death = new Howl({
-        urls: ["./sound/sfx/death.ogg", "./sound/sfx/death.mp3", "./sound/sfx/death.wav"]
+        urls: ["./sound/sfx/death.mp3", "./sound/sfx/death.wav"]
     });
 
     var levelUp = new Howl({
-        urls: ["./sound/sfx/levelUp.ogg", "./sound/sfx/levelUp.mp3", "./sound/sfx/levelUp.wav"]
+        urls: ["./sound/sfx/levelUp.mp3", "./sound/sfx/levelUp.wav"]
     });
 
     var powerUp = new Howl({
-        urls: ["./sound/sfx/sfx_zap.ogg", "./sound/sfx/levelUp.mp3"]
+        urls: ["./sound/sfx/levelUp.mp3"]
     });
     var Sounds = {
         levelUp: levelUp,
