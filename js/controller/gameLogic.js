@@ -350,7 +350,7 @@ define(["model/game", "model/character", "model/inPlay", "model/canvas", "model/
         resetStats: resetStats,
         //variables
         paused: false,
-		fRate: false,
+	fRate: false,
         level: level,
         timer: timer
     };
