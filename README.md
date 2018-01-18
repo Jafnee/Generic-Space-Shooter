@@ -1,6 +1,6 @@
 # Generic-Space-Shooter
 A top down side scrolling shooter created for my University assignment in 2014.
-Implemented with HTML5 canvas and a self made 'game-engine' javascript.
+Implemented with HTML5 canvas and a self made javascript 'game-engine'.
 
 https://jafnee.github.io/Generic-Space-Shooter/
 
